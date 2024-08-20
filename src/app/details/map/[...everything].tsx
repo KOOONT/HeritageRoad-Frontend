@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
-import { useEffect } from 'react';
-import { server } from '../../../mocks/server';
+import { useSelector, useDispatch } from 'react-redux'
+import { useLocalSearchParams, Stack } from 'expo-router';
 import MapComponent from '../../../components/map/MapComponent';
+import { server } from '../../../mocks/server';
+import { setMarkers } from '../../../slices/mapSlice';
+import { RootState } from '../../../store';
 
 server.listen();
 
 export default function Route() {
+  const mapData = useSelector((state: RootState) => state.map.markers);
+  const dispatch = useDispatch();
+  
   const { everything } = useLocalSearchParams<{
     everything: string[];
     query?: string;
@@ -20,7 +25,7 @@ export default function Route() {
       try {
         const response = await fetch('http://localhost/search/heritage')
         const result = await response.json()
-        console.log('fetch result', result[0].result);
+        dispatch(setMarkers(result[0].result.items));
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -31,6 +36,11 @@ export default function Route() {
 
   return (
     <>
+      <Stack.Screen
+        options={{
+          title: keyword,
+        }}
+      />
       <Text>keyword: {keyword}</Text>
       <MapComponent />
     </>
