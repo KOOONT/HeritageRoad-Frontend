@@ -3,7 +3,7 @@
 Korean Heritage Guide App for Domestic and International Travelers
 
 ## System Requirements
-- Node.js (LTS).
+- Node.js >= 18
 - macOS, Windows (including WSL), and Linux are supported.
 
 ## Installation
@@ -16,21 +16,25 @@ git clone https://github.com/KOOONT/HeritageRoad-Frontend.git
 npm install
 ````
 
-3. Set up environment variables:
+3. Create a .env File:
 
-- Create a '.env' file in the root directory of the project and set the necessary environment variables.
-- Set up an Android and iOS device(Android Emulator, iOS Simulator and real device) with a development build:
-  https://docs.expo.dev/get-started/set-up-your-environment/?mode=development-build&buildEnv=local&platform=android&device=physical
+    In the root directory of your project, create a .env file.
+    Define the necessary environment variables in this file.
 
-4. Run your app:
+4. Set Up Development Environment:
+
+    Configure your development environment with Android and iOS devices. This includes setting up Android Emulators, iOS Simulators, and real devices.
+    For detailed instructions, refer to the [Expo documentation on setting up your environment for development builds](https://docs.expo.dev/get-started/set-up-your-environment/?mode=development-build&buildEnv=local&platform=android&device=physical).
+    
+5. Run your app:
+   This command runs a development server after building your app. On subsequent runs, you can skip running `npx expo start`.
+
 ````bash
 # For Android
 npx expo run:android
 # For iOS
 npx expo run:ios
 ````
-This command runs a development server after building your app. On subsequent runs, you can skip running `npx expo start`.
-
 
 ## References
 
