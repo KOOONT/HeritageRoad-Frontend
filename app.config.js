@@ -48,7 +48,7 @@ export default {
         "origin": false
       },
       "eas": {
-        "projectId": process.env.EAS_ID
+        "projectId": "39274d17-3163-486f-b2fd-036c76303eb0"
       }
     }
   }
