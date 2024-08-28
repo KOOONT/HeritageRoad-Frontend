@@ -5,7 +5,7 @@ import { BottomModalProps } from '../../types';
 
 const BottomView = ({ title, isVisible, children, onClose }: BottomModalProps) => {
   return (
-    <Modal animationType="slide" transparent={true} visible={isVisible}>
+    <Modal animationType="fade" transparent={true} visible={isVisible}>
       {/* overlay */}
       <TouchableWithoutFeedback onPress={onClose}>
         <View style={styles.overlay}></View>
