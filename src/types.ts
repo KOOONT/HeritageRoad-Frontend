@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface HeritageItem {
   sn: number,
   no: number,
@@ -17,11 +19,18 @@ export interface HeritageItem {
   regDt: string
 }
 export interface HeritageList {
-    totalCnt: number,
-    pageUnit: number,
-    pageIndex: number,
-    items: HeritageItem[]
+  totalCnt: number,
+  pageUnit: number,
+  pageIndex: number,
+  items: HeritageItem[]
 }
 export interface MapState {
   markers: HeritageItem[]
+}
+
+export interface BottomModalProps {
+  title: string,
+  isVisible: boolean,
+  children: ReactNode,
+  onClose: () => void
 }
