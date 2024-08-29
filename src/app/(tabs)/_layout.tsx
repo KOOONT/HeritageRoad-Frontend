@@ -1,31 +1,22 @@
 import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons'
 import { Tabs } from 'expo-router';
+import { COLORS } from '../../constants/ui';
+import { TABS } from '../../constants/options';
 
 const TabsLayout = () => {
   return (
-    <Tabs screenOptions={{ headerShown: false }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'home',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="maps"
-        options={{
-          title: 'maps',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="map" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="search"
-        options={{
-          title: 'search',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="search" color={color} />,
-        }}
-      />
+    <Tabs screenOptions={{ headerShown: false, tabBarActiveTintColor: COLORS.primary, tabBarShowLabel: false }}>
+      {TABS.map((tab, index) => (
+        <Tabs.Screen
+          key={index}
+          name={tab.name}
+          options={{
+            title: tab.title,
+            tabBarIcon: ({ color }) => <Icon size={22} name={tab.icon} color={color} />,
+          }}
+        />
+      ))}
     </Tabs>
   );
 }
