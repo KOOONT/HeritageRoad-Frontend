@@ -18,6 +18,7 @@ const BottomView = ({ title, isVisible, children, onClose }: BottomModalProps) =
             <MaterialIcons name="close" color="#000" size={22} />
           </Pressable>
         </View>
+        <Text style={styles.subTitle}>조회할 주변 반경을 선택해주세요.</Text>
         {children}
       </View>
     </Modal>
@@ -32,27 +33,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContent: {
+    flex: 1,
     height: '20%',
     width: '100%',
     paddingHorizontal: 15,
-    paddingVertical: 20,
+    paddingVertical: 10,
     backgroundColor: '#fff',
-    borderTopRightRadius: 14,
-    borderTopLeftRadius: 14,
+    borderTopRightRadius: 16,
+    borderTopLeftRadius: 16,
     position: 'absolute',
     bottom: 0,
   },
   titleContainer: {
-    borderTopRightRadius: 10,
-    borderTopLeftRadius: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
   title: {
-    fontSize: 16,
-    fontWeight: 'bold'
+    fontSize: 14,
+    fontWeight: 'bold',
   },
+  subTitle: {
+    fontSize: 12,
+    marginBottom: 12,
+  }
 });
 
 export default BottomView

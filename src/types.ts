@@ -34,3 +34,7 @@ export interface BottomModalProps {
   children: ReactNode,
   onClose: () => void
 }
+export interface DistanceOption {
+  label: string;
+  value: number;
+}
