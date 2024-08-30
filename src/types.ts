@@ -42,4 +42,12 @@ export interface Tab {
   name: string;
   title: string;
   icon: IconType;
+  param? : {
+    data1: string,
+    data2: string
+  }
+}
+export interface MapProps {
+  lat: number,
+  lng: number
 }

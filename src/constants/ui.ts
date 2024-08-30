@@ -3,3 +3,6 @@ export const COLORS = {
   text: '#333333',
   border: '#dddddd',
 };
+export const PIN_COLORS = {
+  default: '#02CBDD'
+}

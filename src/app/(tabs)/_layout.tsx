@@ -8,6 +8,19 @@ const TabsLayout = () => {
   return (
     <Tabs screenOptions={{ headerShown: false, tabBarActiveTintColor: COLORS.primary, tabBarShowLabel: false }}>
       {TABS.map((tab, index) => (
+        tab.param ? 
+        <Tabs.Screen
+          key={index}
+          name={tab.name}
+          options={{
+            title: tab.title,
+            tabBarIcon: ({ color }) => <Icon size={22} name={tab.icon} color={color} />,
+            href: {
+              pathname: tab.name,
+              params: tab.param
+            },
+          }}
+        /> :
         <Tabs.Screen
           key={index}
           name={tab.name}
