@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { DimensionValue } from "react-native";
 
 export interface HeritageItem {
   sn: number;
@@ -29,7 +30,9 @@ export interface MapState {
 }
 export interface BottomModalProps {
   title: string;
+  subTitle: string;
   isVisible: boolean;
+  customHeight: DimensionValue;
   children: ReactNode;
   onClose: () => void;
 }
@@ -50,4 +53,9 @@ export interface Tab {
 export interface MapProps {
   lat: number,
   lng: number
+}
+export interface SearchDetails {
+  ccbaKdcd: string, 
+  ccbaAsno: string, 
+  ccbaCtcd: string
 }

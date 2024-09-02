@@ -3,7 +3,7 @@ import { Modal, View, Text, Pressable, StyleSheet, TouchableWithoutFeedback } fr
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { BottomModalProps } from '../../types';
 
-const BottomView = ({ title, isVisible, children, onClose }: BottomModalProps) => {
+const BottomView = ({ title, subTitle, customHeight, isVisible, children, onClose }: BottomModalProps) => {
   return (
     <Modal animationType="fade" transparent={true} visible={isVisible}>
       {/* overlay */}
@@ -11,14 +11,14 @@ const BottomView = ({ title, isVisible, children, onClose }: BottomModalProps) =
         <View style={styles.overlay}></View>
       </TouchableWithoutFeedback>
       {/* content */}
-      <View style={styles.modalContent}>
+      <View style={[styles.modalContent, {height: customHeight}]}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{title}</Text>
           <Pressable onPress={onClose}>
             <MaterialIcons name="close" color="#000" size={22} />
           </Pressable>
         </View>
-        <Text style={styles.subTitle}>조회할 주변 반경을 선택해주세요.</Text>
+        <Text style={styles.subTitle}>{subTitle}</Text>
         {children}
       </View>
     </Modal>
@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     flex: 1,
-    height: '20%',
     width: '100%',
     paddingHorizontal: 15,
     paddingVertical: 10,

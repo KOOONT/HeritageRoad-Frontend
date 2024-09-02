@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback, GestureResponderEvent, FlatList, TouchableHighlight } from 'react-native';
 import Icon from '@expo/vector-icons/AntDesign';
-import BottomView from '../../components/common/BottomModal';
+import BottomModal from '../../components/common/BottomModal';
 import { DISTANCE_OPTIONS } from '../../constants/options';
 import { DistanceOption } from '../../types';
 
@@ -48,9 +48,11 @@ const Index = () => {
       </TouchableWithoutFeedback>
      
       {/* bottom modal view */}
-      <BottomView 
+      <BottomModal 
         title='반경 선택'
+        subTitle ='조회할 주변 반경을 선택해주세요.'
         isVisible={isModalVisible} 
+        customHeight='20%'
         onClose={onModalClose}
       >
       <FlatList
@@ -60,7 +62,7 @@ const Index = () => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.flatListContainer}
       />
-      </BottomView>
+      </BottomModal>
     </View>
   );
 }
