@@ -5,6 +5,10 @@ export const store = configureStore({
   reducer: {
     map: mapReducer
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false, // 직렬화 상태 체크 비활성화
+    }),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

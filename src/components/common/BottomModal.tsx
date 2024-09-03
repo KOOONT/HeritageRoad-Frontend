@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     paddingHorizontal: 15,
-    paddingVertical: 10,
+    paddingVertical: 20,
     backgroundColor: '#fff',
     borderTopRightRadius: 16,
     borderTopLeftRadius: 16,
@@ -47,13 +47,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginBottom: 2
   },
   title: {
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   subTitle: {
-    fontSize: 12,
+    fontSize: 14,
     marginBottom: 12,
   }
 });

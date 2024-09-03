@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import MapView, { Callout, Marker } from 'react-native-maps';
 import { StyleSheet, View, Text, GestureResponderEvent } from 'react-native';
 import { useSelector } from 'react-redux';
+import { Image } from 'expo-image';
 import { RootState } from '../../store';
 import { MapProps } from '../../types';
 import { LATITUDE_DELTA, LONGITUDE_DELTA } from '../../constants/options';
@@ -9,11 +10,15 @@ import { PIN_COLORS } from '../../constants/ui';
 import BottomModal from '../common/BottomModal';
 import { getDetails } from '../../api/api';
 
+const blurhash =
+  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+
 /* 마커 전달받아서 띄우기 */
 const MapComponent = ({lat, lng}: MapProps) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [title, setTitle] = useState('');
   const [subTitle, setSubTitle] = useState('');
+  const [imgList, setImgList] = useState<string[]>([]);
   const [region, setRegion] = useState({
     latitude: lat,
     longitude: lng,
@@ -32,6 +37,7 @@ const MapComponent = ({lat, lng}: MapProps) => {
     setIsModalVisible(true);
     setTitle(`${item.ccbaMnm1}`);
     setSubTitle(`${item.ccmaName} 제 ${item.crltsnoNm}호`);
+    setImgList([item.imageUrl1, item.imageUrl2, item.imageUrl3]);
   }
 
   return (
@@ -69,7 +75,18 @@ const MapComponent = ({lat, lng}: MapProps) => {
           customHeight='50%'
           onClose={onModalClose}
         >
-          <Text>이용 가능 시간: </Text>
+          <View style={styles.imageContainer}>
+            {imgList.map((item, index) => 
+              <Image
+                key={index}
+                style={[styles.image, {marginRight: index < imgList.length - 1 ? 12 : 0}]}
+                source={item}
+                placeholder={{ blurhash }}
+                contentFit="cover"
+                transition={1000}
+              />
+            )}
+          </View>
       </BottomModal>
     </View>
   );
@@ -88,6 +105,16 @@ const styles = StyleSheet.create({
   },
   detailTitle: {
     fontWeight: 'bold'
+  },
+  imageContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  image: {
+    flex: 1,
+    width: '30%',
+    height: '40%',
+    backgroundColor: '#0553',
   }
 });
 
