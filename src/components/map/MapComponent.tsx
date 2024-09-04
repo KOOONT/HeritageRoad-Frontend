@@ -9,6 +9,7 @@ import { LATITUDE_DELTA, LONGITUDE_DELTA } from '../../constants/options';
 import { PIN_COLORS } from '../../constants/ui';
 import BottomModal from '../common/BottomModal';
 import { getDetails } from '../../api/api';
+import { useTheme } from '@rneui/themed';
 
 const blurhash =
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
@@ -25,6 +26,7 @@ const MapComponent = ({lat, lng}: MapProps) => {
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA
   });
+  const { theme } = useTheme();
   const markers = useSelector((state: RootState) => state.map.markers);
   const onModalClose = () => {
     setIsModalVisible(false);
@@ -46,7 +48,7 @@ const MapComponent = ({lat, lng}: MapProps) => {
         region={region}
         style={styles.map}
       >
-        {markers.map((marker, index) => (
+        {markers?.map((marker, index) => (
           <Marker
             key={index}
             coordinate={{
@@ -56,13 +58,12 @@ const MapComponent = ({lat, lng}: MapProps) => {
             pinColor={PIN_COLORS.default} // 기본 핀 색상
             opacity={0.8}
             anchor={{ x: 0.5, y: 0.5 }} // 앵커 포인트를 중앙으로 설정
-            calloutAnchor={{ x: 0.5, y: 0 }}
+            calloutAnchor={{ x: 0.5, y: -0.05 }}
             onPress={() => handleMarker(marker.ccbaKdcd, marker.ccbaAsno, marker.ccbaCtcd)}
           >
-            <Callout style={styles.callout}
-            >
+            <Callout tooltip>
               <View>
-                <Text>{marker.ccbaMnm1}</Text>
+                <Text style={styles.callText}>{marker.ccbaMnm1}</Text>
               </View>
             </Callout>
           </Marker>
@@ -100,8 +101,13 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  callout: {
-    minWidth: "auto"
+  callText: {
+    width: "auto",
+    padding: 4,
+    fontWeight: 'bold',
+    backgroundColor: '#191919',
+    color: '#fff',
+    borderRadius: 20,
   },
   detailTitle: {
     fontWeight: 'bold'
