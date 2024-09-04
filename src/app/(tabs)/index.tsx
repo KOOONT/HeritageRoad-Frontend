@@ -5,11 +5,13 @@ import Icon from '@expo/vector-icons/AntDesign';
 import BottomModal from '../../components/common/BottomModal';
 import { DISTANCE_OPTIONS } from '../../constants/options';
 import { DistanceOption } from '../../types';
+import { useTheme } from '@rneui/themed';
 
 const Index = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [distance, setDistance] = useState(1);
-
+  const { theme } = useTheme();
+  
   const onModalOpen = (event: GestureResponderEvent) => {
     setIsModalVisible(!isModalVisible);
   };
@@ -28,8 +30,8 @@ const Index = () => {
       <TouchableHighlight
         onPress={() =>handleDistance(item.value)}
         accessibilityLabel={item.label}
-        style={styles.button}
-        underlayColor='#e0e0e0'
+        style={[styles.button, {borderColor: theme.colors.grey2}]}
+        underlayColor={theme.colors.grey4}
       >
         <Text style={styles.buttonText}>{item.label}</Text>
       </TouchableHighlight>
@@ -37,12 +39,12 @@ const Index = () => {
   );
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
       <TouchableWithoutFeedback onPress={onModalOpen}>                                            
         <View style={styles.distanceContainer}>
-          <Text>내 주변 거리&nbsp;
+          <Text style={{ color: theme.colors.black }}>내 주변 거리&nbsp;
             {distance}km&nbsp; 
-            <Icon name="caretdown" color="#000" size={10} />
+            <Icon name="caretdown" color={theme.colors.black} size={10} />
           </Text>
         </View>
       </TouchableWithoutFeedback>
@@ -90,7 +92,6 @@ const styles = StyleSheet.create({
   button: {
     paddingVertical: 6,
     paddingHorizontal: 12,
-    borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 18,
   },

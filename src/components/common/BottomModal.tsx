@@ -2,8 +2,11 @@ import React from 'react';
 import { Modal, View, Text, Pressable, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { BottomModalProps } from '../../types';
+import { useTheme } from '@rneui/themed';
 
 const BottomView = ({ title, subTitle, customHeight, isVisible, children, onClose }: BottomModalProps) => {
+  const { theme } = useTheme();
+
   return (
     <Modal animationType="fade" transparent={true} visible={isVisible}>
       {/* overlay */}
@@ -11,14 +14,18 @@ const BottomView = ({ title, subTitle, customHeight, isVisible, children, onClos
         <View style={styles.overlay}></View>
       </TouchableWithoutFeedback>
       {/* content */}
-      <View style={[styles.modalContent, {height: customHeight}]}>
+      <View style={[styles.modalContent, {height: customHeight, backgroundColor: theme.colors.grey5}]}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>{title}</Text>
+          <Text style={[styles.title, { color: theme.colors.black }]}>
+            {title}
+            </Text>
           <Pressable onPress={onClose}>
-            <MaterialIcons name="close" color="#000" size={22} />
+            <MaterialIcons name="close" color={theme.colors.black} size={22} />
           </Pressable>
         </View>
-        <Text style={styles.subTitle}>{subTitle}</Text>
+        <Text style={[styles.subTitle, { color: theme.colors.black }]}>
+          {subTitle}
+        </Text>
         {children}
       </View>
     </Modal>
@@ -37,7 +44,6 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 15,
     paddingVertical: 20,
-    backgroundColor: '#fff',
     borderTopRightRadius: 16,
     borderTopLeftRadius: 16,
     position: 'absolute',
