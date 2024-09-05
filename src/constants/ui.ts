@@ -1,18 +1,19 @@
-import { createTheme } from '@rneui/themed';
+import { createTheme } from "@rneui/themed";
 
-export const theme = createTheme({
+export const customTheme = createTheme({
   lightColors: {
     primary: '#01929F',
     background: '#ffffff',
     white: '#ffffff',
     black: '#242424',
-    grey5: '#e1e8ee', 
+    grey5: '#ffffff', 
   },
   darkColors: {
     primary: '#01929F',
-    background: '#191919',
-    white: '#fff',
-    grey5: '#25272A',
+    background: '#000',
+    white: '#080808',
+    black: '#f2f2f2',
+    grey5: '#212123',
   },
   spacing: {
     xs: 2,
@@ -22,7 +23,6 @@ export const theme = createTheme({
     xl: 16
   }
 });
-
 export const COLORS = {
   primary: '#01929F',
   text: '#333333',

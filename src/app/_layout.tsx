@@ -4,8 +4,9 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ThemeProvider } from '@rneui/themed';
 import { Provider } from 'react-redux';
+import { useColorScheme } from 'react-native';
 import { store } from '../store';
-import { theme } from '../constants/ui';
+import { customTheme } from '../constants/ui';
 
 const enableMocking = async () => {
   if (!__DEV__) {
@@ -17,13 +18,16 @@ const enableMocking = async () => {
 };
 
 const Layout = () => {
+  //Set theme mode based on system settings
+  customTheme.mode = useColorScheme() === 'dark' ? 'dark' : 'light';
+
   useEffect(() => {
     enableMocking();
   }, []);
 
   return (
     <Provider store={store}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={customTheme}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <SafeAreaView style={{ flex: 1 }}>
           <Stack>
