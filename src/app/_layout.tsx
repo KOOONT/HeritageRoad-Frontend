@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
 import { Stack } from 'expo-router/stack';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { ThemeProvider } from '@rneui/themed';
 import { Provider } from 'react-redux';
 import { useColorScheme } from 'react-native';
@@ -28,13 +26,9 @@ const Layout = () => {
   return (
     <Provider store={store}>
       <ThemeProvider theme={customTheme}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <SafeAreaView style={{ flex: 1 }}>
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          </Stack>
-        </SafeAreaView>
-      </GestureHandlerRootView>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }}/>
+        </Stack> 
       </ThemeProvider>
     </Provider>
   );
