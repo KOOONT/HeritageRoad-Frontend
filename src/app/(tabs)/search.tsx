@@ -1,10 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import Input from '../../components/search/Input';
+import { useTheme } from '@rneui/themed';
 
 const Search = () => {
+  const { theme } = useTheme();
+
   return (
-    <View style={styles.container}>
-      <Text>Tab</Text>
+    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+      <Input />
     </View>
   );
 }
@@ -12,7 +16,8 @@ const Search = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    width: '100%',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
 });

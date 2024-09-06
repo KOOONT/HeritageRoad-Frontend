@@ -12,7 +12,7 @@ const TabsLayout = () => {
   const { theme } = useTheme();
 
   return (
-    <SafeAreaView edges={['top']} style={[styles.safearea, { backgroundColor: theme.colors.background}]}>
+    <SafeAreaView edges={['top']} style={[styles.safearea, { backgroundColor: theme.colors.background }]}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Tabs 
           screenOptions={{ 

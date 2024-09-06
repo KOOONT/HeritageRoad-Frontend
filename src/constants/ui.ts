@@ -3,17 +3,22 @@ import { createTheme } from "@rneui/themed";
 export const customTheme = createTheme({
   lightColors: {
     primary: '#01929F',
-    background: '#ffffff',
-    white: '#ffffff',
+    background: '#FFFFFF',
+    white: '#FFFFFF',
     black: '#242424',
-    grey5: '#ffffff', 
+    grey3: '#999999',
+    grey4: '#F2F2F2',
+    grey5: '#FFFFFF', 
+    searchBg: '#F2F2F2'
   },
   darkColors: {
     primary: '#01929F',
     background: '#000',
     white: '#080808',
-    black: '#f2f2f2',
+    black: '#F2F2F2',
+    grey3: '#8A8A8A',
     grey5: '#212123',
+    searchBg: '#2B2D31'
   },
   spacing: {
     xs: 2,

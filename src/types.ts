@@ -28,6 +28,9 @@ export interface HeritageList {
 export interface MapState {
   markers: HeritageItem[];
 }
+export interface SearchState {
+  result: HeritageItem[];
+}
 export interface BottomModalProps {
   title: string;
   subTitle: string;
