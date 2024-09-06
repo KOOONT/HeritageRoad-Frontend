@@ -1,10 +1,10 @@
 import React from 'react';
-import { Modal, View, Text, Pressable, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { Modal, View, Text, Pressable, StyleSheet, TouchableWithoutFeedback, ActivityIndicator } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { BottomModalProps } from '../../types';
 import { useTheme } from '@rneui/themed';
+import { BottomModalProps } from '../../types';
 
-const BottomView = ({ title, subTitle, customHeight, isVisible, children, onClose }: BottomModalProps) => {
+const BottomView = ({ title, subTitle, customHeight, isVisible, children, onClose, loading }: BottomModalProps) => {
   const { theme } = useTheme();
 
   return (
@@ -15,18 +15,24 @@ const BottomView = ({ title, subTitle, customHeight, isVisible, children, onClos
       </TouchableWithoutFeedback>
       {/* content */}
       <View style={[styles.modalContent, {height: customHeight, backgroundColor: theme.colors.grey5}]}>
-        <View style={styles.titleContainer}>
-          <Text style={[styles.title, { color: theme.colors.black }]}>
-            {title}
-            </Text>
-          <Pressable onPress={onClose}>
-            <MaterialIcons name="close" color={theme.colors.black} size={22} />
-          </Pressable>
-        </View>
-        <Text style={[styles.subTitle, { color: theme.colors.black }]}>
-          {subTitle}
-        </Text>
-        {children}
+        { loading ? 
+          <ActivityIndicator color={theme.colors.primary} style={styles.indicator}/>
+        :
+        <>
+          <View style={styles.titleContainer}>
+            <Text style={[styles.title, { color: theme.colors.black }]}>
+              {title}
+              </Text>
+            <Pressable onPress={onClose}>
+              <MaterialIcons name="close" color={theme.colors.black} size={22} />
+            </Pressable>
+          </View>
+          <Text style={[styles.subTitle, { color: theme.colors.black }]}>
+            {subTitle}
+          </Text>
+          {children}
+        </>
+        } 
       </View>
     </Modal>
   );
@@ -62,6 +68,9 @@ const styles = StyleSheet.create({
   subTitle: {
     fontSize: 14,
     marginBottom: 12,
+  },
+  indicator: {
+    marginTop: 30
   }
 });
 

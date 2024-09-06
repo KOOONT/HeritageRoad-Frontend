@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import MapView, { Callout, Marker } from 'react-native-maps';
-import { StyleSheet, View, Text, GestureResponderEvent } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 import { Image } from 'expo-image';
 import { RootState } from '../../store';
@@ -26,20 +26,27 @@ const MapComponent = ({lat, lng}: MapProps) => {
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA
   });
+  const [loading, setLoading] = useState(true);
+
   const { theme } = useTheme();
+  
   const markers = useSelector((state: RootState) => state.map.markers);
   const onModalClose = () => {
     setIsModalVisible(false);
   };
   const handleMarker = async(ccbaKdcd: string, ccbaAsno: string, ccbaCtcd: string) => {
-    //TODO: Loading UI
-
-    const details = await getDetails({ccbaKdcd, ccbaAsno, ccbaCtcd});
-    const item = details.item;
-    setIsModalVisible(true);
-    setTitle(`${item.ccbaMnm1}`);
-    setSubTitle(`${item.ccmaName} 제 ${item.crltsnoNm}호`);
-    setImgList([item.imageUrl1, item.imageUrl2, item.imageUrl3]);
+    try {
+      setIsModalVisible(true);
+      const details = await getDetails({ccbaKdcd, ccbaAsno, ccbaCtcd});
+      const item = details.item;
+      setTitle(`${item.ccbaMnm1}`);
+      setSubTitle(`${item.ccmaName} 제 ${item.crltsnoNm}호`);
+      setImgList([item.imageUrl1, item.imageUrl2, item.imageUrl3]);
+    } catch(error) {
+      console.log('error', error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -75,6 +82,7 @@ const MapComponent = ({lat, lng}: MapProps) => {
           isVisible={isModalVisible} 
           customHeight='50%'
           onClose={onModalClose}
+          loading={loading}
         >
           <View style={styles.imageContainer}>
             {imgList.map((item, index) => 

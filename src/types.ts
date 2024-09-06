@@ -35,6 +35,7 @@ export interface BottomModalProps {
   customHeight: DimensionValue;
   children: ReactNode;
   onClose: () => void;
+  loading: boolean;
 }
 export interface DistanceOption {
   label: string;

@@ -56,6 +56,7 @@ const Index = () => {
         isVisible={isModalVisible} 
         customHeight='20%'
         onClose={onModalClose}
+        loading={false}
       >
       <FlatList
         data={DISTANCE_OPTIONS}
