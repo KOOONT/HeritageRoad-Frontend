@@ -3,6 +3,7 @@ import { Modal, View, Text, Pressable, StyleSheet, TouchableWithoutFeedback, Act
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useTheme } from '@rneui/themed';
 import { BottomModalProps } from '../../types';
+import Loading from './Loading';
 
 const BottomView = ({ title, subTitle, customHeight, isVisible, children, onClose, loading }: BottomModalProps) => {
   const { theme } = useTheme();
@@ -16,7 +17,7 @@ const BottomView = ({ title, subTitle, customHeight, isVisible, children, onClos
       {/* content */}
       <View style={[styles.modalContent, {height: customHeight, backgroundColor: theme.colors.grey5}]}>
         { loading ? 
-          <ActivityIndicator color={theme.colors.primary} style={styles.indicator}/>
+          <Loading margin={30}/>
         :
         <>
           <View style={styles.titleContainer}>
@@ -69,9 +70,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: 12,
   },
-  indicator: {
-    marginTop: 30
-  }
 });
 
 export default BottomView
