@@ -28,7 +28,13 @@ export interface HeritageList {
 export interface MapState {
   markers: HeritageItem[];
 }
+export interface HistoryItem {
+  id: string; //unique id(key)
+  value: string;
+}
 export interface SearchState {
+  searchQuery: string;
+  searchHistory: HistoryItem[];
   result: HeritageItem[];
 }
 export interface BottomModalProps {

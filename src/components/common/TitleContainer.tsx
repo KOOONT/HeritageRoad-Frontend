@@ -2,23 +2,25 @@ import React from 'react'
 import { StyleSheet, TouchableOpacity, View, Text } from 'react-native'
 import { useTheme } from '@rneui/themed'
 
-interface titleProps {
+interface TitleContainerProps {
   title: string;
   sideButton?: string;
   buttonPress?: () => void;
 }
 
-const TitleContainer = ({title, sideButton, buttonPress}: titleProps) => {
+const TitleContainer = ({title, sideButton, buttonPress}: TitleContainerProps) => {
   const { theme } = useTheme();
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
-        {sideButton ?
+      {sideButton && (
         <TouchableOpacity onPress={buttonPress}>
-          <Text style={[styles.clearText, { color: theme.colors.grey3 }]}>{sideButton}</Text>
-        </TouchableOpacity> :''
-        }
+          <Text style={[styles.clearText, { color: theme.colors.grey3 }]}>
+            {sideButton}
+          </Text>
+        </TouchableOpacity>
+      )}
     </View>
   )
 }
@@ -29,11 +31,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    marginBottom: 15
   },
   title: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   clearText: {

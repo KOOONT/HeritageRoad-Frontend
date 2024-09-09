@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import mapReducer from './slices/mapSlice'
+import searchSlice from './slices/searchSlice'
 
 export const store = configureStore({
   reducer: {
-    map: mapReducer
+    map: mapReducer,
+    search: searchSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -3,7 +3,7 @@ import MapView, { Callout, Marker } from 'react-native-maps';
 import { StyleSheet, View, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 import { Image } from 'expo-image';
-import { RootState } from '../../store';
+import { RootState } from '../../redux/store';
 import { MapProps } from '../../types';
 import { LATITUDE_DELTA, LONGITUDE_DELTA } from '../../constants/options';
 import { PIN_COLORS } from '../../constants/ui';

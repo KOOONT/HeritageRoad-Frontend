@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
 import MapComponent from '../../../components/map/MapComponent';
 import { getHeritages } from '../../../api/api';
-import { setMarkers } from '../../../slices/mapSlice';
+import { setMarkers } from '../../../redux/slices/mapSlice';
 
 const Maps = () => {
   const data = useLocalSearchParams();

@@ -3,7 +3,7 @@ import { Stack } from 'expo-router/stack';
 import { ThemeProvider } from '@rneui/themed';
 import { Provider } from 'react-redux';
 import { useColorScheme } from 'react-native';
-import { store } from '../store';
+import { store } from '../redux/store';
 import { customTheme } from '../constants/ui';
 
 const enableMocking = async () => {
