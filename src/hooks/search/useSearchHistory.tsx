@@ -6,6 +6,7 @@ import UUID from 'react-native-uuid';
 import { selectSearchData } from '../../redux/selectors/searchSelectors';
 import { getHeritages } from '../../api/api';
 import { HistoryItem } from '../../types';
+import { setLoading } from '../../redux/slices/searchSlice';
 
 const useSearchHistory = () => {
   const dispatch = useDispatch();
@@ -75,13 +76,14 @@ const useSearchHistory = () => {
   // 검색 API 호출 메소드
   const fetchSearchResults = async (query: string) => {
     try {
+      dispatch(setLoading(true));
       const data = await getHeritages();
       dispatch(setResult(data));
-      dispatch(setSearchQuery('')); //reset searchQuery
       addSearchTerm(query);
     } catch (error) {
       console.error("Error fetching search results:", error);
     } finally {
+      dispatch(setLoading(false));
     }
   };
 

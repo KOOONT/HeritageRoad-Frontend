@@ -13,9 +13,12 @@ const TitleContainer = ({title, sideButton, buttonPress}: TitleContainerProps) =
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
+      <Text style={[styles.title, {color: theme.colors.black}]}>{title}</Text>
       {sideButton && (
-        <TouchableOpacity onPress={buttonPress}>
+        <TouchableOpacity 
+          onPress={buttonPress}
+          activeOpacity={0.7}
+        >
           <Text style={[styles.clearText, { color: theme.colors.grey3 }]}>
             {sideButton}
           </Text>

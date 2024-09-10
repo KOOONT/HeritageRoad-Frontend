@@ -33,6 +33,7 @@ export interface HistoryItem {
   value: string;
 }
 export interface SearchState {
+  loading: boolean,
   searchQuery: string;
   searchHistory: HistoryItem[];
   result: HeritageItem[];

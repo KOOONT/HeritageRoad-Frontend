@@ -3,6 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { HeritageItem, HistoryItem, SearchState } from '../../types'
 
 const initialState: SearchState = {
+  loading: false,
   searchQuery: '',
   searchHistory: [],
   result: []
@@ -12,6 +13,9 @@ export const searchSlice = createSlice({
   name: 'search',
   initialState,
   reducers: {
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
+    },
     setSearchQuery: (state, action: PayloadAction<string>) => {
       state.searchQuery = action.payload;
     },
@@ -25,6 +29,6 @@ export const searchSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setSearchQuery, setHistory, setResult } = searchSlice.actions
+export const { setLoading, setSearchQuery, setHistory, setResult } = searchSlice.actions
 
 export default searchSlice.reducer

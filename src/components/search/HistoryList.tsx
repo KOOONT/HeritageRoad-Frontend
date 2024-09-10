@@ -20,9 +20,9 @@ const HistoryList = () => {
     e.stopPropagation();
     removeItemFromHistory(id);
   }
-  const requerySearch = (query: string) => {
+  const requerySearch = async (query: string) => {
     dispatch(setSearchQuery(query));
-    fetchSearchResults(query);
+    await fetchSearchResults(query);
   }
 
   return (
@@ -37,12 +37,17 @@ const HistoryList = () => {
           <TouchableOpacity 
             style={[styles.searchItem, { backgroundColor: theme.colors.grey4 }]} 
             onPress={() => requerySearch(item.value)}
-            activeOpacity={1}
+            activeOpacity={0.7}
           >
-            <Text style={styles.searchItemText}>
+            <Text style={[styles.searchItemText, {color: theme.colors.black}]}>
               {item.value} 
             </Text>
-            <FontAwesome6 name="xmark" size={20} onPress={(e: React.SyntheticEvent) => removeItem(e, item.id)}></FontAwesome6>
+            <FontAwesome6 
+              name="xmark" 
+              size={20} 
+              color={theme.colors.black}
+              onPress={(e: React.SyntheticEvent) => removeItem(e, item.id)}
+            ></FontAwesome6>
           </TouchableOpacity>
         )}
         contentContainerStyle={styles.searchList}
@@ -53,7 +58,9 @@ const HistoryList = () => {
 
 const styles = StyleSheet.create({
   container: {
+    height: 100,
     paddingHorizontal: 20,
+    marginBottom: 20
   },
   searchList: {
     flexDirection: 'row',

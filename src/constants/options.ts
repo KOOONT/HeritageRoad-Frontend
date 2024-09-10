@@ -18,3 +18,19 @@ export const TABS: Tab[]= [
     param: { data1: LATITUDE_DEFAULT, data2: LONGITUDE_DEFAULT }},
   { name: 'search', title: '검색', icon: 'search' },
 ]
+
+export const RECOMMEND = [
+  "경복궁", 
+  "창덕궁",
+  "불국사",
+  "석굴암",
+  "덕수궁",
+  "종묘",
+  "남한산성",
+  "수원 화성",
+  "해인사",
+  "청자 요지",
+  "창경궁",
+  "흥인지문",
+  "남대문"
+];
