@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row', // 가로 정렬
     alignItems: 'center', // 세로 중앙 정렬
-    marginBottom: 10,
+    marginBottom: 20,
   },
   image: {
     width: 80,
