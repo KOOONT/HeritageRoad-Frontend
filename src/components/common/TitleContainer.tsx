@@ -4,16 +4,17 @@ import { useTheme } from '@rneui/themed'
 
 interface TitleContainerProps {
   title: string;
+  titleSize: number,
   sideButton?: string;
   buttonPress?: () => void;
 }
 
-const TitleContainer = ({title, sideButton, buttonPress}: TitleContainerProps) => {
+const TitleContainer = ({title, titleSize, sideButton, buttonPress}: TitleContainerProps) => {
   const { theme } = useTheme();
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.title, {color: theme.colors.black}]}>{title}</Text>
+      <Text style={[styles.title, {color: theme.colors.black, fontSize: titleSize}]}>{title}</Text>
       {sideButton && (
         <TouchableOpacity 
           onPress={buttonPress}
@@ -37,7 +38,6 @@ const styles = StyleSheet.create({
     marginBottom: 15
   },
   title: {
-    fontSize: 18,
     fontWeight: 'bold',
   },
   clearText: {

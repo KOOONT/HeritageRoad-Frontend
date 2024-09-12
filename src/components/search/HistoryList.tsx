@@ -27,7 +27,12 @@ const HistoryList = () => {
 
   return (
     <View style={styles.container}>
-      <TitleContainer title='최근검색어' sideButton='모두지우기' buttonPress={clearHistory}/>
+      <TitleContainer 
+        title='최근검색어' 
+        titleSize={18}
+        sideButton='모두지우기' 
+        buttonPress={clearHistory}
+      />
       {/* 최근 검색어 리스트 */}
       <FlatList
         data={searchHistory}
@@ -59,8 +64,8 @@ const HistoryList = () => {
 const styles = StyleSheet.create({
   container: {
     height: 100,
-    paddingHorizontal: 20,
-    marginBottom: 20
+    marginHorizontal: 20,
+    marginTop: 20,
   },
   searchList: {
     flexDirection: 'row',

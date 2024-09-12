@@ -20,7 +20,7 @@ const Recommend = () => {
   
   return (
     <View style={styles.container}>
-      <TitleContainer title='추천검색어' />
+      <TitleContainer title='추천검색어' titleSize={18} />
       <FlatList
         data={RECOMMEND}
         horizontal
@@ -46,7 +46,8 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: 100,
-    paddingHorizontal: 20,
+    margin: 20, 
+    paddingHorizontal: 20
   },
   searchList: {
     flexDirection: 'row',

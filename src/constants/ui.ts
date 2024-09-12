@@ -20,13 +20,6 @@ export const customTheme = createTheme({
     grey5: '#212123',
     searchBg: '#2B2D31'
   },
-  spacing: {
-    xs: 2,
-    sm: 4,
-    md: 8,
-    lg: 12,
-    xl: 16
-  }
 });
 export const COLORS = {
   primary: '#01929F',

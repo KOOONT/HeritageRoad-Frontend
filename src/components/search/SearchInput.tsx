@@ -57,8 +57,7 @@ const styles = StyleSheet.create({
   barContainer: {
     flexDirection: 'row', // 아이콘과 검색창이 나란히 배치되도록 설정
     alignItems: 'center',
-    marginLeft: 10,
-    marginBottom: 10
+    marginLeft: 10
   },
 
 });
