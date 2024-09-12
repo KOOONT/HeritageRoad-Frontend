@@ -1,5 +1,6 @@
 import React from 'react'
-import { FlatList, StyleSheet, TouchableOpacity, View , Text } from 'react-native'
+import { StyleSheet, TouchableOpacity, View , Text } from 'react-native'
+import { FlashList } from "@shopify/flash-list";
 import { useDispatch } from 'react-redux'
 import { useTheme } from '@rneui/themed'
 import { RECOMMEND } from '../../constants/options'
@@ -21,10 +22,11 @@ const Recommend = () => {
   return (
     <View style={styles.container}>
       <TitleContainer title='추천검색어' titleSize={18} />
-      <FlatList
+      <FlashList
         data={RECOMMEND}
         horizontal
         keyExtractor={(item, index) => item + index}
+        estimatedItemSize={50}
         renderItem={({ item }) => (
           <TouchableOpacity 
             style={[styles.searchItem, { backgroundColor: theme.colors.grey4 }]} 
@@ -36,7 +38,6 @@ const Recommend = () => {
             </Text>
           </TouchableOpacity>
         )}
-        contentContainerStyle={styles.searchList}
       />
     </View>
   )
@@ -48,9 +49,6 @@ const styles = StyleSheet.create({
     height: 100,
     margin: 20, 
     paddingHorizontal: 20
-  },
-  searchList: {
-    flexDirection: 'row',
   },
   searchItem: {
     height: 40,

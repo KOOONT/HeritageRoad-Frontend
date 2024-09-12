@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { FlatList, StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
+import { FlashList } from "@shopify/flash-list";
 import { selectSearchData } from '../../redux/selectors/searchSelectors'
 import { useTheme } from '@rneui/themed';
 import { RootState } from '../../redux/store';
@@ -19,7 +20,7 @@ const SearchResultList = () => {
       ) : (
         <>
           {searchResult.length > 0 ? (
-            <FlatList
+            <FlashList
               data={searchResult}
               renderItem={({ item }) => (
                 <ResultItem
@@ -28,6 +29,7 @@ const SearchResultList = () => {
                 />
               )}
               keyExtractor={(item) => item.no.toString()} // 키가 숫자일 경우 문자열로 변환
+              estimatedItemSize={100}
             />
           ) : (
             <View style={styles.noitemContainer}>

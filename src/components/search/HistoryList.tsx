@@ -1,6 +1,7 @@
 /* 최근검색어 리스트 */
 import React from 'react'
-import { TouchableOpacity, View, StyleSheet, Text, FlatList } from 'react-native';
+import { TouchableOpacity, View, StyleSheet, Text } from 'react-native';
+import { FlashList } from "@shopify/flash-list";
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { useTheme } from '@rneui/themed';
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,10 +35,11 @@ const HistoryList = () => {
         buttonPress={clearHistory}
       />
       {/* 최근 검색어 리스트 */}
-      <FlatList
+      <FlashList
         data={searchHistory}
         horizontal
         keyExtractor={(item) => item.id}
+        estimatedItemSize={50}
         renderItem={({ item }) => (
           <TouchableOpacity 
             style={[styles.searchItem, { backgroundColor: theme.colors.grey4 }]} 
@@ -55,7 +57,6 @@ const HistoryList = () => {
             ></FontAwesome6>
           </TouchableOpacity>
         )}
-        contentContainerStyle={styles.searchList}
       />
     </View>
   )
@@ -66,9 +67,6 @@ const styles = StyleSheet.create({
     height: 100,
     marginHorizontal: 20,
     marginTop: 20,
-  },
-  searchList: {
-    flexDirection: 'row',
   },
   searchItem: {
     height: 40, // 버튼 높이 설정
