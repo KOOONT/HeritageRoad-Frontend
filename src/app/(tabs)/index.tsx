@@ -1,12 +1,17 @@
 //home
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, GestureResponderEvent, FlatList, TouchableHighlight } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { useTheme } from '@rneui/themed';
 import TitleContainer from '../../components/common/TitleContainer';
+import { getHeritages } from '../../api/api';
+import TodayRoad from '../../components/home/TodayRoad';
 
 const Index = () => {
   const { theme } = useTheme();
 
+  useEffect(() => {
+    getHeritages();
+  }, []);
 
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
@@ -15,7 +20,7 @@ const Index = () => {
         titleSize={20}
         sideButton='전체보기 >'
       />
-     
+     <TodayRoad />
      
     </View>
   );

@@ -3,8 +3,12 @@ import { Stack } from 'expo-router/stack';
 import { ThemeProvider } from '@rneui/themed';
 import { Provider } from 'react-redux';
 import { useColorScheme } from 'react-native';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { store } from '../redux/store';
 import { customTheme } from '../constants/ui';
+
+// Create a client
+const queryClient = new QueryClient();
 
 const enableMocking = async () => {
   if (!__DEV__) {
@@ -25,11 +29,14 @@ const Layout = () => {
 
   return (
     <Provider store={store}>
+      {/* Provide the client to your App */}
+      <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={customTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }}/>
         </Stack> 
       </ThemeProvider>
+      </QueryClientProvider>
     </Provider>
   );
 };
