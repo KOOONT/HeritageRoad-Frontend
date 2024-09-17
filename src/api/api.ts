@@ -13,24 +13,4 @@ export const getHeritages = async () => {
       console.error('Error fetching data:', error);
     }
 };
-//국가유산검색 상세조회
-export const getDetails = async ({ccbaKdcd, ccbaAsno, ccbaCtcd}: SearchDetails) => {
-    try {
-      const response = await fetch(`${baseURL}/search/details`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ccbaKdcd,
-          ccbaAsno,
-          ccbaCtcd
-        }),
-      });
-      const result = await response.json();
-      return result.result;
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-};
 

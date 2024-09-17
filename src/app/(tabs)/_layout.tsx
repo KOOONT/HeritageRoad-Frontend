@@ -56,7 +56,7 @@ const TabsLayout = () => {
 const styles = StyleSheet.create({
   safearea: {
     flex: 1,
-    backfaceVisibility: 'hidden',
+    backfaceVisibility: 'hidden'
   }
 });
 export default TabsLayout;

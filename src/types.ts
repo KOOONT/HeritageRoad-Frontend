@@ -2,31 +2,58 @@ import { ReactNode } from "react";
 import { DimensionValue } from "react-native";
 
 export interface HeritageItem {
-  sn: number;
-  no: number;
+  ccbaAsno: string;
   ccmaName: string;
   ccbaMnm1: string;
-  ccbaMnm2: string;
   ccbaCtcdNm: string;
   ccsiName: string;
-  ccbaAdmin: string;
   ccbaKdcd: string;
   ccbaCtcd: string;
+  imageUrl: string;
+}
+export interface HeritageDetails {
+  ccbaKdcd: string;
   ccbaAsno: string;
-  ccbaCncl: string;
+  ccbaCtcd: string;
   ccbaCpno: string;
   longitude: string;
   latitude: string;
-  regDt: string;
+  ccmaName: string;
+  crltsnoNm: string;
+  ccbaMnm1: string;
+  ccbaMnm2: string;
+  gcodeName: string;
+  bcodeName: string;
+  mcodeName: string;
+  scodeName: string;
+  ccbaQuan: string;
+  ccbaAsdt: string;
+  ccbaCtcdNm: string;
+  ccsiName: string;
+  ccbaLcad: string;
+  ccceName: string;
+  ccbaPoss: string;
+  ccbaAdmin: string;
+  ccbaCncl: string;
+  ccbaCndt: string;
+  videoUrl: string;
+  imageUrl1: string;
+  imageUrl2: string;
+  imageUrl3: string;
+  content: string;
 }
 export interface HeritageList {
-  totalCnt: number;
-  pageUnit: number;
-  pageIndex: number;
   items: HeritageItem[];
 }
+export interface Marker {
+  latitude: string,
+  longitude: string,
+  code: string,
+  name: string
+}
 export interface MapState {
-  markers: HeritageItem[];
+  selectedData: HeritageDetails | null;
+  relatedMarkers: Marker[];
 }
 export interface HistoryItem {
   id: string; //unique id(key)
@@ -58,12 +85,8 @@ export interface Tab {
   icon: IconType;
   param? : {
     data1: string,
-    data2: string
+    data2: string,
   }
-}
-export interface MapProps {
-  lat: number,
-  lng: number
 }
 export interface SearchDetails {
   ccbaKdcd: string, 

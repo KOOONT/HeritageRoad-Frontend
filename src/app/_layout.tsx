@@ -33,7 +33,16 @@ const Layout = () => {
       <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={customTheme}>
         <Stack>
+          {/* Tabs */}
           <Stack.Screen name="(tabs)" options={{ headerShown: false }}/>
+          {/* 상세 페이지 */}
+          <Stack.Screen
+            name="details/[id]"            
+            options={{ 
+              headerShown: true,
+              title: '' 
+            }}
+          />
         </Stack> 
       </ThemeProvider>
       </QueryClientProvider>

@@ -18,7 +18,6 @@ const Index = () => {
       <TitleContainer 
         title='오늘의 로드' 
         titleSize={20}
-        sideButton='전체보기 >'
       />
      <TodayRoad />
      

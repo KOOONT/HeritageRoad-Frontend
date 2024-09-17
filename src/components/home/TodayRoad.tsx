@@ -3,20 +3,28 @@ import { ImageBackground, TouchableOpacity, View, Text, StyleSheet } from 'react
 import { useQuery } from '@tanstack/react-query'
 import { FlashList } from '@shopify/flash-list'
 import { Skeleton } from '@rneui/themed'
-import { HeritageItem, HeritageList } from '../../types'
-
-const tempImg = "https://www.cha.go.kr/unisearch/images/national_treasure/2685609.jpg";
+import { useRouter } from 'expo-router'
+import { HeritageItem } from '../../types'
 
 const TodayRoad = () => {
-  const { isPending, error, data } = useQuery<HeritageList>({
-    queryKey: ['todayRoad'],
-    queryFn: async () => {
-      const response = await fetch('http://localhost/search/heritages');
-      const result = await response.json();
+  const router = useRouter();
+  const apiBaseUrl = process.env.API_BASE_URL;
 
-      return result[0].result; // 결과에서 'result' 속성만 반환
-    }
+  const { isPending, isSuccess, error, data } = useQuery({
+    queryKey: ['todayRoad'],
+    queryFn: async (): Promise<HeritageItem[]> => {
+      const response = await fetch(`${apiBaseUrl}/api/home-random-heritage-list`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    },
   })
+
+  const getDetail = (id: string, name: string, kdcd: string, ctcd: string) => {
+    //push to detail page
+    router.push(`/details/${id}?name=${name}&kdcd=${kdcd}&ctcd=${ctcd}`);
+  }
 
   if(isPending) return (
     <View style={styles.skeleton}>
@@ -40,8 +48,9 @@ const TodayRoad = () => {
     <TouchableOpacity 
       style={styles.itemContainer}
       activeOpacity={0.8}
+      onPress={() => getDetail(item.ccbaAsno, item.ccbaMnm1, item.ccbaKdcd, item.ccbaCtcd)}
     >
-      <ImageBackground source={{ uri: tempImg }} style={styles.image}>
+      <ImageBackground source={{ uri: item.imageUrl }} style={styles.image}>
         {/* 이미지 위에 반투명 오버레이 추가 */}
         <View style={styles.overlay} />
         <View style={styles.textView}>
@@ -53,8 +62,9 @@ const TodayRoad = () => {
   );
   
   return (
+    isSuccess &&
     <FlashList
-      data={data.items}
+      data={data}
       horizontal
       keyExtractor={(item) => item.ccbaAsno}
       estimatedItemSize={200}
@@ -64,7 +74,7 @@ const TodayRoad = () => {
       snapToAlignment='center' //스크롤뷰의 가운데 정렬
       decelerationRate="fast" // 빠른 스크롤 속도 설정
       showsHorizontalScrollIndicator={false} // 가로 스크롤바 숨김  
-    />
+    /> 
   )
 }
 

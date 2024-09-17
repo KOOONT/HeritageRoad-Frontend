@@ -2,46 +2,46 @@ import React, { useState } from 'react';
 import MapView, { Callout, Marker } from 'react-native-maps';
 import { StyleSheet, View, Text } from 'react-native';
 import { useSelector } from 'react-redux';
+import { router } from 'expo-router';
 import { Image } from 'expo-image';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { RootState } from '../../redux/store';
-import { MapProps } from '../../types';
 import { LATITUDE_DELTA, LONGITUDE_DELTA } from '../../constants/options';
 import { PIN_COLORS } from '../../constants/ui';
 import BottomModal from '../common/BottomModal';
-import { getDetails } from '../../api/api';
-import { useTheme } from '@rneui/themed';
 
 const blurhash =
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
 /* 마커 전달받아서 띄우기 */
-const MapComponent = ({lat, lng}: MapProps) => {
+const MapComponent = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [title, setTitle] = useState('');
   const [subTitle, setSubTitle] = useState('');
   const [imgList, setImgList] = useState<string[]>([]);
-  const [region, setRegion] = useState({
-    latitude: lat,
-    longitude: lng,
-    latitudeDelta: LATITUDE_DELTA,
-    longitudeDelta: LONGITUDE_DELTA
-  });
   const [loading, setLoading] = useState(true);
 
-  const { theme } = useTheme();
-  
-  const markers = useSelector((state: RootState) => state.map.markers);
+  const selectedData = useSelector((state: RootState) => state.map.selectedData);
+  const relatedMarkers = useSelector((state: RootState) => state.map.relatedMarkers);
+
   const onModalClose = () => {
     setIsModalVisible(false);
   };
-  const handleMarker = async(ccbaKdcd: string, ccbaAsno: string, ccbaCtcd: string) => {
+  const handleHeritage = async(
+    ccmaName: string, 
+    ccbaMnm1: string, 
+    ccbaLcad: string, 
+    imageUrl1: string, 
+    imageUrl2: string,
+    imageUrl3: string
+  ) => {
     try {
-      setIsModalVisible(true);
-      const details = await getDetails({ccbaKdcd, ccbaAsno, ccbaCtcd});
-      const item = details.item;
-      setTitle(`${item.ccbaMnm1}`);
-      setSubTitle(`${item.ccmaName} 제 ${item.crltsnoNm}호`);
-      setImgList([item.imageUrl1, item.imageUrl2, item.imageUrl3]);
+      setIsModalVisible(true);      
+      setTitle(ccbaMnm1);
+      setSubTitle(`${ccmaName}`);
+      if(imageUrl1) {
+        setImgList([imageUrl1, imageUrl2, imageUrl3]);
+      }
     } catch(error) {
       console.log('error', error);
     } finally {
@@ -51,51 +51,92 @@ const MapComponent = ({lat, lng}: MapProps) => {
 
   return (
     <View style={styles.container}>
+      <Icon
+        name="arrow-back-circle"
+        size={40}
+        style={styles.backIcon}
+        color='grey'
+        onPress={() => router.dismiss()}
+      />
       <MapView
-        region={region}
+        region={{
+          latitude: parseFloat(selectedData?.latitude || '0'),
+          longitude: parseFloat(selectedData?.longitude || '0'),
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA
+        }}
         style={styles.map}
       >
-        {markers?.map((marker, index) => (
+        {selectedData &&
           <Marker
-            key={index}
+            key={selectedData?.ccbaAsno}
             coordinate={{
-              latitude: parseFloat(marker.latitude) || lat,
-              longitude: parseFloat(marker.longitude) || lng
+              latitude: parseFloat(selectedData.latitude),
+              longitude: parseFloat(selectedData.longitude)
             }}
             pinColor={PIN_COLORS.default} // 기본 핀 색상
             opacity={0.8}
             anchor={{ x: 0.5, y: 0.5 }} // 앵커 포인트를 중앙으로 설정
             calloutAnchor={{ x: 0.5, y: -0.05 }}
-            onPress={() => handleMarker(marker.ccbaKdcd, marker.ccbaAsno, marker.ccbaCtcd)}
+            onPress={() => 
+              handleHeritage(
+                selectedData.ccmaName, 
+                selectedData.ccbaMnm1, 
+                selectedData.ccbaLcad,
+                selectedData.imageUrl1, 
+                selectedData.imageUrl2, 
+                selectedData.imageUrl3
+              )
+            }
           >
             <Callout tooltip>
               <View>
-                <Text style={styles.callText}>{marker.ccbaMnm1}</Text>
+                <Text style={styles.callText}>{selectedData.ccbaMnm1}</Text>
+              </View>
+            </Callout>
+          </Marker>
+        }
+
+        {relatedMarkers?.map((marker, index) => (
+          <Marker
+            key={index}
+            coordinate={{
+              latitude: parseFloat(marker.latitude),
+              longitude: parseFloat(marker.longitude)
+            }}
+            pinColor={PIN_COLORS.default} // 기본 핀 색상
+            opacity={0.8}
+            anchor={{ x: 0.5, y: 0.5 }} // 앵커 포인트를 중앙으로 설정
+            calloutAnchor={{ x: 0.5, y: -0.05 }}
+          >
+            <Callout tooltip>
+              <View>
+                <Text style={styles.callText}>{marker.name}</Text>
               </View>
             </Callout>
           </Marker>
         ))}
       </MapView>
       <BottomModal 
-          title={title}
-          subTitle ={subTitle}
-          isVisible={isModalVisible} 
-          customHeight='50%'
-          onClose={onModalClose}
-          loading={loading}
-        >
-          <View style={styles.imageContainer}>
-            {imgList.map((item, index) => 
-              <Image
-                key={index}
-                style={[styles.image, {marginRight: index < imgList.length - 1 ? 12 : 0}]}
-                source={item}
-                placeholder={{ blurhash }}
-                contentFit="cover"
-                transition={1000}
-              />
-            )}
-          </View>
+        title={title}
+        subTitle ={subTitle}
+        isVisible={isModalVisible} 
+        customHeight='50%'
+        onClose={onModalClose}
+        loading={loading}
+      >
+        <View style={styles.imageContainer}>
+          {imgList.map((item, index) => 
+            <Image
+              key={index}
+              style={[styles.image, {marginRight: index < imgList.length - 1 ? 12 : 0}]}
+              source={item}
+              placeholder={{ blurhash }}
+              contentFit="cover"
+              transition={1000}
+            />
+          )}
+        </View>
       </BottomModal>
     </View>
   );
@@ -108,6 +149,13 @@ const styles = StyleSheet.create({
   map: {
     width: '100%',
     height: '100%',
+  },
+  backIcon: {
+    flex: 1,
+    position: 'absolute',
+    top: 15,
+    left: 10,
+    zIndex: 1
   },
   callText: {
     width: "auto",

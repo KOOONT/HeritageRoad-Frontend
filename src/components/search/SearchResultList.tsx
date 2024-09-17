@@ -1,9 +1,9 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { StyleSheet, View, Text } from 'react-native';
+import { useSelector } from 'react-redux'
+import { useTheme } from '@rneui/themed';
 import { FlashList } from "@shopify/flash-list";
 import { selectSearchData } from '../../redux/selectors/searchSelectors'
-import { useTheme } from '@rneui/themed';
 import { RootState } from '../../redux/store';
 import ResultItem from './ResultItem';
 import Loading from '../common/Loading';
@@ -24,11 +24,11 @@ const SearchResultList = () => {
               data={searchResult}
               renderItem={({ item }) => (
                 <ResultItem
-                  key={item.no.toString()} // 키가 숫자일 경우 문자열로 변환
+                  key={item.ccbaAsno} // 키가 숫자일 경우 문자열로 변환
                   item={item}
                 />
               )}
-              keyExtractor={(item) => item.no.toString()} // 키가 숫자일 경우 문자열로 변환
+              keyExtractor={(item) => item.ccbaAsno} // 키가 숫자일 경우 문자열로 변환
               estimatedItemSize={100}
             />
           ) : (
