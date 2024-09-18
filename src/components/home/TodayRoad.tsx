@@ -42,8 +42,6 @@ const TodayRoad = () => {
     </View>
   )
 
-  if(error) return <Text>{error.message}</Text>
-
   const renderItem = ({ item }: { item: HeritageItem }) => (
     <TouchableOpacity 
       style={styles.itemContainer}
@@ -62,19 +60,20 @@ const TodayRoad = () => {
   );
   
   return (
-    isSuccess &&
-    <FlashList
-      data={data}
-      horizontal
-      keyExtractor={(item) => item.ccbaAsno}
-      estimatedItemSize={200}
-      renderItem={renderItem}
-      pagingEnabled
-      snapToInterval={260}
-      snapToAlignment='center' //스크롤뷰의 가운데 정렬
-      decelerationRate="fast" // 빠른 스크롤 속도 설정
-      showsHorizontalScrollIndicator={false} // 가로 스크롤바 숨김  
-    /> 
+    isSuccess && (
+      <FlashList
+        data={data}
+        horizontal
+        keyExtractor={(item) => item.ccbaAsno}
+        estimatedItemSize={200}
+        renderItem={renderItem}
+        pagingEnabled
+        snapToInterval={260}
+        snapToAlignment='center' //스크롤뷰의 가운데 정렬
+        decelerationRate="fast" // 빠른 스크롤 속도 설정
+        showsHorizontalScrollIndicator={false} // 가로 스크롤바 숨김  
+      /> 
+    )
   )
 }
 

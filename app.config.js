@@ -12,6 +12,11 @@ export default {
     },
     "userInterfaceStyle": "automatic",
     "ios": {
+      "infoPlist": {
+        "NSAppTransportSecurity": { 
+          "NSAllowsArbitraryLoads": true 
+        }
+      },
       "userInterfaceStyle": "automatic",
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.heritage-road",
@@ -20,6 +25,7 @@ export default {
       }
     },
     "android": {
+      "usesCleartextTraffic": true,
       "userInterfaceStyle": "automatic",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
