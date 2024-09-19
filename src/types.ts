@@ -60,10 +60,9 @@ export interface HistoryItem {
   value: string;
 }
 export interface SearchState {
-  loading: boolean,
-  searchQuery: string;
-  searchHistory: HistoryItem[];
-  result: HeritageItem[];
+  searchQuery: string; //검색어
+  searchHistory: HistoryItem[]; //최근검색어
+  showResult: boolean; //검색결과 조회 여부
 }
 export interface BottomModalProps {
   title: string;

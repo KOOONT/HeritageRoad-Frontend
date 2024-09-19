@@ -10,22 +10,9 @@ import { customTheme } from '../constants/ui';
 // Create a client
 const queryClient = new QueryClient();
 
-const enableMocking = async () => {
-  if (!__DEV__) {
-    return;
-  }
-  await import('../../msw.polyfills');
-  const { server } = await import('../mocks/server');
-  server.listen();
-};
-
 const Layout = () => {
   //Set theme mode based on system settings
   customTheme.mode = useColorScheme() === 'dark' ? 'dark' : 'light';
-
-  useEffect(() => {
-    enableMocking();
-  }, []);
 
   return (
     <Provider store={store}>

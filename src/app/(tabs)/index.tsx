@@ -1,17 +1,12 @@
 //home
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useTheme } from '@rneui/themed';
 import TitleContainer from '../../components/common/TitleContainer';
-import { getHeritages } from '../../api/api';
 import TodayRoad from '../../components/home/TodayRoad';
 
 const Index = () => {
   const { theme } = useTheme();
-
-  useEffect(() => {
-    getHeritages();
-  }, []);
 
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.background }]}>

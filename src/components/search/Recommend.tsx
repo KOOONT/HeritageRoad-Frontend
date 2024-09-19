@@ -1,23 +1,13 @@
 import React from 'react'
 import { StyleSheet, TouchableOpacity, View , Text } from 'react-native'
 import { FlashList } from "@shopify/flash-list";
-import { useDispatch } from 'react-redux'
 import { useTheme } from '@rneui/themed'
+
 import { RECOMMEND } from '../../constants/options'
-import { setSearchQuery } from '../../redux/slices/searchSlice'
 import TitleContainer from '../common/TitleContainer'
-import useSearchHistory from '../../hooks/search/useSearchHistory'
 
-const Recommend = () => {
+const Recommend = ({requerySearch}: {requerySearch: (query: string) => void}) => {
   const { theme } = useTheme();
-  const { fetchSearchResults } = useSearchHistory();
-
-  const dispatch = useDispatch();
-
-  const requerySearch = async (query: string) => {
-    dispatch(setSearchQuery(query));
-    await fetchSearchResults(query);
-  }
   
   return (
     <View style={styles.container}>

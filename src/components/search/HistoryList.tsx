@@ -1,29 +1,23 @@
 /* 최근검색어 리스트 */
 import React from 'react'
 import { TouchableOpacity, View, StyleSheet, Text } from 'react-native';
+import { useSelector } from 'react-redux';
 import { FlashList } from "@shopify/flash-list";
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { useTheme } from '@rneui/themed';
-import { useDispatch, useSelector } from 'react-redux';
+
 import TitleContainer from '../common/TitleContainer';
 import useSearchHistory from '../../hooks/search/useSearchHistory';
-import { setSearchQuery } from '../../redux/slices/searchSlice';
 import { selectSearchData } from '../../redux/selectors/searchSelectors';
 
-const HistoryList = () => {
+const HistoryList = ({requerySearch}: {requerySearch: (query: string) => void}) => {
   const { theme } = useTheme();
-  const { clearHistory, removeItemFromHistory, fetchSearchResults } = useSearchHistory();
-
-  const dispatch = useDispatch();
-  const { searchHistory, searchResult } = useSelector(selectSearchData); //memoization
+  const { clearHistory, removeItemFromHistory } = useSearchHistory();
+  const { searchHistory } = useSelector(selectSearchData); //memoization
 
   const removeItem = (e: React.SyntheticEvent, id: string) => {
     e.stopPropagation();
     removeItemFromHistory(id);
-  }
-  const requerySearch = async (query: string) => {
-    dispatch(setSearchQuery(query));
-    await fetchSearchResults(query);
   }
 
   return (
@@ -70,6 +64,7 @@ const styles = StyleSheet.create({
   },
   searchItem: {
     height: 40, // 버튼 높이 설정
+    minWidth: 100,
     justifyContent: 'center', // 텍스트를 수직 가운데 정렬
     alignItems: 'center', // 텍스트를 수평 가운데 정렬
     flexDirection: 'row',

@@ -1,16 +1,14 @@
 import React, { useEffect } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { setHistory, setSearchQuery, setResult } from '../../redux/slices/searchSlice';
+import { setHistory } from '../../redux/slices/searchSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import UUID from 'react-native-uuid';
 import { selectSearchData } from '../../redux/selectors/searchSelectors';
-import { getHeritages } from '../../api/api';
 import { HistoryItem } from '../../types';
-import { setLoading } from '../../redux/slices/searchSlice';
 
 const useSearchHistory = () => {
   const dispatch = useDispatch();
-  const { searchHistory, searchResult} = useSelector(selectSearchData);
+  const { searchHistory } = useSelector(selectSearchData);
 
   useEffect(() => {
     loadHistory();
@@ -73,26 +71,11 @@ const useSearchHistory = () => {
     }
   };
 
-  // 검색 API 호출 메소드
-  const fetchSearchResults = async (query: string) => {
-    try {
-      dispatch(setLoading(true));
-      const data = await getHeritages();
-      dispatch(setResult(data));
-      addSearchTerm(query);
-    } catch (error) {
-      console.error("Error fetching search results:", error);
-    } finally {
-      dispatch(setLoading(false));
-    }
-  };
-
   return {
     addSearchTerm,
     loadHistory,
     clearHistory,
-    removeItemFromHistory,
-    fetchSearchResults
+    removeItemFromHistory
   };
 }
 

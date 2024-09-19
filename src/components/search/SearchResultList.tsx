@@ -1,44 +1,40 @@
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native';
-import { useSelector } from 'react-redux'
 import { useTheme } from '@rneui/themed';
 import { FlashList } from "@shopify/flash-list";
-import { selectSearchData } from '../../redux/selectors/searchSelectors'
-import { RootState } from '../../redux/store';
 import ResultItem from './ResultItem';
 import Loading from '../common/Loading';
+import { HeritageItem } from '../../types';
 
-const SearchResultList = () => {
-  const { searchResult } = useSelector(selectSearchData);
+const SearchResultList = ({ isPending, isSuccess, data }: { isPending: boolean, isSuccess: boolean, data: HeritageItem[] }) => {
   const { theme } = useTheme();
-  const loading = useSelector((state: RootState) => state.search.loading);
-
+  
+  if(isPending) return (
+    <Loading margin={30} />
+  )
+  
   return (
-    <View style={styles.container}>
-      {loading ? (
-        <Loading margin={30} />
-      ) : (
-        <>
-          {searchResult.length > 0 ? (
-            <FlashList
-              data={searchResult}
-              renderItem={({ item }) => (
-                <ResultItem
-                  key={item.ccbaAsno} // 키가 숫자일 경우 문자열로 변환
-                  item={item}
-                />
-              )}
-              keyExtractor={(item) => item.ccbaAsno} // 키가 숫자일 경우 문자열로 변환
-              estimatedItemSize={100}
-            />
-          ) : (
-            <View style={styles.noitemContainer}>
-              <Text style={{color: theme.colors.black}}>검색된 결과가 없습니다.</Text>
-            </View>
-          )}
-        </>
-      )}
-    </View>  
+    isSuccess && (
+      <View style={styles.container}>
+        {data.length > 0 ? (
+          <FlashList
+            data={data}
+            renderItem={({ item }) => (
+              <ResultItem
+                key={item.ccbaAsno} // 키가 숫자일 경우 문자열로 변환
+                item={item}
+              />
+            )}
+            keyExtractor={(item) => item.ccbaAsno} // 키가 숫자일 경우 문자열로 변환
+            estimatedItemSize={100}
+          />
+        ) : (
+          <View style={styles.noitemContainer}>
+            <Text style={{color: theme.colors.black}} numberOfLines={1} ellipsizeMode='tail'>검색된 결과가 없습니다.</Text>
+          </View>
+        )}
+      </View>  
+    )
   )
 }
 
@@ -47,7 +43,7 @@ const styles = StyleSheet.create({
     flex: 1, 
     width: '100%',
     paddingHorizontal: 10,
-    marginBottom: 10
+    marginVertical: 10
   },
   noitemContainer: {
     height: '100%',
