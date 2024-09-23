@@ -43,7 +43,8 @@ export default {
       "bundler": "metro"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-av"
     ],
     "platforms": [
       "ios",

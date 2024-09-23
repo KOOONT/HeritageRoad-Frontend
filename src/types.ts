@@ -11,6 +11,10 @@ export interface HeritageItem {
   ccbaCtcd: string;
   imageUrl: string;
 }
+export interface HeritageImage {
+  imageUrl: string,
+  description: string
+}
 export interface HeritageDetails {
   ccbaKdcd: string;
   ccbaAsno: string;
@@ -36,11 +40,9 @@ export interface HeritageDetails {
   ccbaAdmin: string;
   ccbaCncl: string;
   ccbaCndt: string;
-  videoUrl: string;
-  imageUrl1: string;
-  imageUrl2: string;
-  imageUrl3: string;
   content: string;
+  videoUrl: string;
+  images: HeritageImage[]
 }
 export interface HeritageList {
   items: HeritageItem[];
