@@ -135,7 +135,6 @@ const index = () => {
               </View>
             </View>
           </ScrollView>
-          
         </View>
       }
     </>

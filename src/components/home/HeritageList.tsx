@@ -1,19 +1,20 @@
 import React from 'react'
-import { ImageBackground, TouchableOpacity, View, Text, StyleSheet } from 'react-native'
+import { TouchableOpacity, View, Text, StyleSheet, Image } from 'react-native'
 import { useQuery } from '@tanstack/react-query'
 import { FlashList } from '@shopify/flash-list'
-import { Skeleton } from '@rneui/themed'
+import { Skeleton, useTheme } from '@rneui/themed'
 import { useRouter } from 'expo-router'
 import { HeritageItem } from '../../types'
 
-const TodayRoad = () => {
+const HeritageList = ({queryKey, url}: {queryKey: string, url: string}) => {
+  const { theme } = useTheme();
   const router = useRouter();
   const apiBaseUrl = process.env.API_BASE_URL;
 
-  const { isPending, isSuccess, error, data } = useQuery({
-    queryKey: ['todayRoad'],
+  const { isPending, isSuccess, data } = useQuery({
+    queryKey: [{queryKey}],
     queryFn: async (): Promise<HeritageItem[]> => {
-      const response = await fetch(`${apiBaseUrl}/api/heritage-tourist-popular-heritage`);
+      const response = await fetch(`${apiBaseUrl}/${url}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -30,20 +31,20 @@ const TodayRoad = () => {
     <View style={styles.skeleton}>
       <Skeleton
         animation="pulse"
-        width={250}
-        height={320}
+        width={160}
+        height={160}
         style={{marginLeft: 20, marginRight: 10}}
       />
       <Skeleton
         animation="pulse"
-        width={250}
-        height={320}
+        width={160}
+        height={160}
         style={{marginRight: 10}}
       />
       <Skeleton
         animation="pulse"
-        width={250}
-        height={320}
+        width={160}
+        height={160}
       />
     </View>
   )
@@ -54,14 +55,16 @@ const TodayRoad = () => {
       activeOpacity={0.8}
       onPress={() => getDetail(item.ccbaAsno, item.ccbaMnm1, item.ccbaKdcd, item.ccbaCtcd)}
     >
-      <ImageBackground source={{ uri: item.imageUrl }} style={styles.image}>
-        {/* 이미지 위에 반투명 오버레이 추가 */}
-        <View style={styles.overlay} />
-        <View style={styles.textView}>
-          <Text style={styles.ccbaMnm1} numberOfLines={1} ellipsizeMode="tail">{item.ccbaMnm1}</Text>
-          <Text style={styles.ccbaCtcdNm}>{`${item.ccbaCtcdNm} ${item.ccsiName}·${item.ccmaName}`}</Text>
-        </View>
-      </ImageBackground>
+      <Image source={{ uri: item.imageUrl }} style={styles.image} resizeMode="cover" />
+      <Text 
+        numberOfLines={1} ellipsizeMode="tail"
+        style={[styles.ccbaMnm1, {color: theme.colors.black}]}
+      >
+        {item.ccbaMnm1}
+      </Text>
+      <Text style={[styles.ccbaCtcdNm, {color: theme.colors.grey0}]}>
+        {`${item.ccbaCtcdNm} ${item.ccsiName}`}
+      </Text>
     </TouchableOpacity>
   );
   
@@ -93,36 +96,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   itemContainer: { 
-    width: 250, 
-    height: 320,
+    width: 160, 
+    height: 200,
     marginRight: 10,
   },
   image: {
-    width: 250,
-    height: 320
-  },
-  overlay: {
-    ...StyleSheet.absoluteFillObject, // 이미지 전체를 덮는 오버레이
-    backgroundColor: 'rgba(0, 0, 0, 0.4)'
-  },
-  textView: {
-    color: 'white',
-    position: 'absolute',
-    bottom: 10, // 하단에서 10px 위로 배치
-    padding: 10,
-  },
-  ccbaCtcdNm: {
-    color: 'white',
-    fontSize: 14,
-    fontWeight: 'bold',
-    marginTop: 8
+    width: 160,
+    height: 160
   },
   ccbaMnm1: {
-    color: 'white',
-    fontSize: 20,
+    fontSize: 12,
+    marginTop: 2,
     fontWeight: 'bold',
     flexWrap: 'wrap'
   },
+  ccbaCtcdNm: {
+    fontSize: 10,
+    marginTop: 2
+  },
 });
 
-export default TodayRoad
+export default HeritageList

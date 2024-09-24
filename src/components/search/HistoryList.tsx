@@ -31,6 +31,7 @@ const HistoryList = ({requerySearch}: {requerySearch: (query: string) => void}) 
       {/* 최근 검색어 리스트 */}
       <FlashList
         data={searchHistory}
+        style={styles.listContainer}
         horizontal
         keyExtractor={(item) => item.id}
         estimatedItemSize={50}
@@ -59,8 +60,9 @@ const HistoryList = ({requerySearch}: {requerySearch: (query: string) => void}) 
 const styles = StyleSheet.create({
   container: {
     height: 100,
+  },
+  listContainer: {
     marginHorizontal: 20,
-    marginTop: 20,
   },
   searchItem: {
     height: 40, // 버튼 높이 설정
