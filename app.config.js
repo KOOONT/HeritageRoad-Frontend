@@ -8,7 +8,7 @@ export default {
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#000000"
+      "backgroundColor": "#03CBDD"
     },
     "userInterfaceStyle": "automatic",
     "ios": {
