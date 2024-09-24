@@ -71,16 +71,10 @@ const index = () => {
         headerRight: () => 
           <Icon 
             name="map" 
+            color={theme.colors.black}
             size={20} 
             onPress={() => {
-              router.push({
-                pathname: '/maps/[data]', 
-                params: { 
-                  data1: data?.latitude, 
-                  data2: data?.longitude, 
-                  id: id
-                }
-              });
+              router.push('/maps');
             }} 
           />
       })

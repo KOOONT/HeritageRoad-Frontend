@@ -17,7 +17,7 @@ export const customTheme = createTheme({
     white: '#080808',
     black: '#F2F2F2',
     grey3: '#8A8A8A',
-    grey5: '#212123',
+    grey5: '#18191A',
     searchBg: '#2B2D31'
   },
 });

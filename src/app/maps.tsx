@@ -5,20 +5,21 @@ import { useSelector } from 'react-redux';
 import { router } from 'expo-router';
 import { Image } from 'expo-image';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { RootState } from '../../redux/store';
-import { LATITUDE_DELTA, LONGITUDE_DELTA } from '../../constants/options';
-import { PIN_COLORS } from '../../constants/ui';
-import BottomModal from '../common/BottomModal';
+
+import { RootState } from '../redux/store';
+import { LATITUDE_DELTA, LONGITUDE_DELTA } from '../constants/options';
+import { PIN_COLORS } from '../constants/ui';
+import BottomModal from '../components/common/BottomModal';
+import { HeritageImage } from '../types';
 
 const blurhash =
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
-/* 마커 전달받아서 띄우기 */
-const MapComponent = () => {
+const Maps = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [title, setTitle] = useState('');
   const [subTitle, setSubTitle] = useState('');
-  const [imgList, setImgList] = useState<string[]>([]);
+  const [imgList, setImgList] = useState<HeritageImage[]>([]);
   const [loading, setLoading] = useState(true);
 
   const selectedData = useSelector((state: RootState) => state.map.selectedData);
@@ -31,17 +32,13 @@ const MapComponent = () => {
     ccmaName: string, 
     ccbaMnm1: string, 
     ccbaLcad: string, 
-    imageUrl1: string, 
-    imageUrl2: string,
-    imageUrl3: string
+    images: HeritageImage[]
   ) => {
     try {
       setIsModalVisible(true);      
       setTitle(ccbaMnm1);
       setSubTitle(`${ccmaName}`);
-      if(imageUrl1) {
-        setImgList([imageUrl1, imageUrl2, imageUrl3]);
-      }
+      setImgList(images);
     } catch(error) {
       console.log('error', error);
     } finally {
@@ -83,9 +80,7 @@ const MapComponent = () => {
                 selectedData.ccmaName, 
                 selectedData.ccbaMnm1, 
                 selectedData.ccbaLcad,
-                selectedData.imageUrl1, 
-                selectedData.imageUrl2, 
-                selectedData.imageUrl3
+                selectedData.images, 
               )
             }
           >
@@ -126,11 +121,11 @@ const MapComponent = () => {
         loading={loading}
       >
         <View style={styles.imageContainer}>
-          {imgList.map((item, index) => 
+          {imgList.slice(0, 3).map((item, index) => 
             <Image
               key={index}
               style={[styles.image, {marginRight: index < imgList.length - 1 ? 12 : 0}]}
-              source={item}
+              source={item.imageUrl}
               placeholder={{ blurhash }}
               contentFit="cover"
               transition={1000}
@@ -180,4 +175,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default MapComponent;
+export default Maps;

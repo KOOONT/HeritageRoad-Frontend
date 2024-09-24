@@ -6,14 +6,14 @@ import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import HistoryList from '../../components/search/HistoryList';
-import Recommend from '../../components/search/Recommend';
-import SearchResultList from '../../components/search/SearchResultList';
-import { selectSearchData } from '../../redux/selectors/searchSelectors';
-import { RootState } from '../../redux/store';
-import { setSearchQuery, setShowResult } from '../../redux/slices/searchSlice';
-import { HeritageItem } from '../../types';
-import useSearchHistory from '../../hooks/search/useSearchHistory';
+import HistoryList from '../components/search/HistoryList';
+import Recommend from '../components/search/Recommend';
+import SearchResultList from '../components/search/SearchResultList';
+import { selectSearchData } from '../redux/selectors/searchSelectors';
+import { RootState } from '../redux/store';
+import { setSearchQuery, setShowResult } from '../redux/slices/searchSlice';
+import { HeritageItem } from '../types';
+import useSearchHistory from '../hooks/search/useSearchHistory';
 
 const apiBaseUrl = process.env.API_BASE_URL;
 
