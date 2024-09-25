@@ -59,7 +59,7 @@ export interface Marker {
 }
 export interface MapState {
   selectedData: HeritageDetails | null;
-  relatedMarkers: Marker[];
+  relatedMarkers: RelatedItem[];
 }
 export interface HistoryItem {
   id: string; //unique id(key)
@@ -95,7 +95,6 @@ export interface SearchDetails {
   ccbaAsno: string, 
   ccbaCtcd: string
 }
-
 export interface ResultListProps { //검색결과 리스트
   isLoading: boolean; 
   isError: boolean;
@@ -103,4 +102,20 @@ export interface ResultListProps { //검색결과 리스트
   data: HeritageItem[];
   handleLoadMore: () => void;
   isFetchingNextPage: boolean
+}
+export interface RelatedList {
+  accommodations: RelatedItem[];
+  restaurants: RelatedItem[];
+  relatedAttractions: RelatedItem[]
+}
+export interface RelatedItem {
+  contentId: string,
+  title: string;
+  addr: string;
+  addr2: string;
+  addr3: string;
+  firstImage: string;
+  mapX: string;
+  mapY: string;
+  contentTypeId: string;
 }

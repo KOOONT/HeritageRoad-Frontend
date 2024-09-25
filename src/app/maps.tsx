@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import MapView, { Callout, Marker } from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import { StyleSheet, View, Text, Linking, Alert } from 'react-native';
 import { useSelector } from 'react-redux';
 import { router } from 'expo-router';
 import { Image } from 'expo-image';
-import { Button } from '@rneui/themed';
+import { Button, useTheme } from '@rneui/themed';
 import Icon from 'react-native-vector-icons/Ionicons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { RootState } from '../redux/store';
@@ -13,24 +14,37 @@ import { LATITUDE_DELTA, LONGITUDE_DELTA } from '../constants/options';
 import { PIN_COLORS } from '../constants/ui';
 import BottomModal from '../components/common/BottomModal';
 import { HeritageImage } from '../types';
+import MemoizedMarker from '../components/details/MemoizedMarker';
 
 const blurhash =
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
+const typeNames: { [key: string]: string } = {
+  '12': '관광지', 
+  '32': '숙박',
+  '39': '음식점'
+};
+
 const Maps = () => {
+  const {theme} = useTheme();
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [title, setTitle] = useState('');
   const [subTitle, setSubTitle] = useState('');
   const [imgList, setImgList] = useState<HeritageImage[]>([]);
+  const [otherImg, setOtherImg] = useState<string>('');
+  const [otherX, setOtherX] = useState<string>('');
+  const [otherY, setOtherY] = useState<string>('');
   const [loading, setLoading] = useState(true);
-
+  const [heritage, setHeritage] = useState(true);
+  
   const selectedData = useSelector((state: RootState) => state.map.selectedData);
   const relatedMarkers = useSelector((state: RootState) => state.map.relatedMarkers);
 
   const onModalClose = () => {
     setIsModalVisible(false);
   };
-  const handleHeritage = async(
+  const handleHeritage = async( //국가유산 마커 클릭
     ccmaName: string, 
     ccbaMnm1: string, 
     ccbaCtcdNm: string, 
@@ -38,6 +52,7 @@ const Maps = () => {
     images: HeritageImage[]
   ) => {
     try {
+      setHeritage(true);
       setIsModalVisible(true);      
       setTitle(ccbaMnm1);
       setSubTitle(`${ccbaCtcdNm} ${ccsiName}·${ccmaName}`);
@@ -48,9 +63,33 @@ const Maps = () => {
       setLoading(false);
     }
   }
-  const openKakaoMap = () => {
-    const url = `https://map.kakao.com/link/to/${selectedData?.ccbaMnm1},${selectedData?.latitude},${selectedData?.longitude}`;
-    
+  const handleOthers = async( //기타 마커 클릭
+    title: string, 
+    typeName: string, 
+    location: string, 
+    image: string,
+    x: string,
+    y: string
+  ) => {
+    try {
+      setHeritage(false);
+      setIsModalVisible(true);      
+      setTitle(title);
+      setSubTitle(`${location}·${typeName}`);
+      setOtherImg(image);
+      setOtherX(x);
+      setOtherY(y);
+    } catch(error) {
+      console.log('error', error);
+    } finally {
+      setLoading(false);
+    }
+  }
+  const openKakaoMap = (title: string | undefined, latitude: string, longitude: string) => {
+    const url = title 
+      ? `https://map.kakao.com/link/to/${title},${latitude},${longitude}` 
+      : `https://map.kakao.com/link/to/${latitude},${longitude}`;
+
     Linking.canOpenURL(url)
       .then((supported) => {
         if (supported) {
@@ -73,8 +112,8 @@ const Maps = () => {
       />
       <MapView
         region={{
-          latitude: parseFloat(selectedData?.latitude || '0'),
-          longitude: parseFloat(selectedData?.longitude || '0'),
+          latitude: parseFloat(selectedData?.latitude || relatedMarkers[0].mapY),
+          longitude: parseFloat(selectedData?.longitude || relatedMarkers[0].mapY),
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA
         }}
@@ -101,11 +140,15 @@ const Maps = () => {
               )
             }
           >
-            <Callout tooltip>
-              <View>
-                <Text style={styles.callText}>{selectedData.ccbaMnm1}</Text>
-              </View>
-            </Callout>
+            {/** 실제 마커 */}
+            <View style={styles.markerContainer}>
+              <Text style={styles.markerTitle}>{selectedData.ccbaMnm1}</Text>
+              <FontAwesome5
+                name="map-marker-alt"
+                size={40}
+                color={theme.colors.primary}
+              />
+            </View>
           </Marker>
         }
 
@@ -113,22 +156,30 @@ const Maps = () => {
           <Marker
             key={index}
             coordinate={{
-              latitude: parseFloat(marker.latitude),
-              longitude: parseFloat(marker.longitude)
+              latitude: parseFloat(marker.mapY),
+              longitude: parseFloat(marker.mapX)
             }}
             pinColor={PIN_COLORS.default} // 기본 핀 색상
             opacity={0.8}
             anchor={{ x: 0.5, y: 0.5 }} // 앵커 포인트를 중앙으로 설정
             calloutAnchor={{ x: 0.5, y: -0.05 }}
+            onPress={() => 
+              handleOthers(
+                marker.title,
+                typeNames[marker.contentTypeId],
+                marker.addr3,
+                marker.firstImage,
+                marker.mapX,
+                marker.mapY
+              )
+            }
           >
-            <Callout tooltip>
-              <View>
-                <Text style={styles.callText}>{marker.name}</Text>
-              </View>
-            </Callout>
+            {/** 실제 마커 */}
+            <MemoizedMarker marker={marker} />
           </Marker>
         ))}
       </MapView>
+
       <BottomModal 
         title={title}
         subTitle ={subTitle}
@@ -137,7 +188,7 @@ const Maps = () => {
         loading={loading}
       >
         <View style={styles.imageContainer}>
-          {imgList.slice(0, 3).map((item, index) => 
+          {heritage && imgList.slice(0, 3).map((item, index) => 
             <Image
               key={index}
               style={styles.image}
@@ -147,19 +198,43 @@ const Maps = () => {
               transition={1000}
             />
           )}
+          {!heritage && otherImg && (
+            <Image
+              style={styles.image}
+              source={otherImg}
+              placeholder={{ blurhash }}
+              contentFit="cover"
+              transition={1000}
+            />
+          )}
         </View>
         <View>
-          <Button
-            ViewComponent={LinearGradient}
-            linearGradientProps={{
-              colors: ["#0AAAB8", "#0B609D"],
-              start: { x: 0, y: 0.5 },
-              end: { x: 1, y: 0.5 },
-            }}
-            onPress={openKakaoMap}
-          >
-            길찾기
-          </Button>
+          {heritage && selectedData?.latitude && selectedData.longitude && (
+            <Button
+              ViewComponent={LinearGradient}
+              linearGradientProps={{
+                colors: ["#0AAAB8", "#0B609D"],
+                start: { x: 0, y: 0.5 },
+                end: { x: 1, y: 0.5 },
+              }}
+              onPress={() => openKakaoMap(selectedData.ccbaMnm1, selectedData.latitude, selectedData.longitude)}
+            >
+              길찾기
+            </Button>
+          )}
+          {!heritage && (
+            <Button
+              ViewComponent={LinearGradient}
+              linearGradientProps={{
+                colors: ["#0AAAB8", "#0B609D"],
+                start: { x: 0, y: 0.5 },
+                end: { x: 1, y: 0.5 },
+              }}
+              onPress={() => openKakaoMap(title, otherY, otherX)}
+            >
+              길찾기
+            </Button>
+          )}
         </View>
       </BottomModal>
     </View>
@@ -181,13 +256,22 @@ const styles = StyleSheet.create({
     left: 10,
     zIndex: 1
   },
-  callText: {
-    width: "auto",
-    padding: 4,
-    fontWeight: 'bold',
+  markerContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 5,
+    padding: 5,
+  },
+  markerTitle: {
+    width: 'auto',
     backgroundColor: '#191919',
+    padding: 4,
+    fontWeight: '600',
     color: '#fff',
     borderRadius: 20,
+    textAlign: 'center',
+    marginBottom: 5,
   },
   detailTitle: {
     fontWeight: 'bold'

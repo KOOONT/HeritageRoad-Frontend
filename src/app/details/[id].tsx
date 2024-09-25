@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Skeleton, useTheme } from '@rneui/themed';
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router'
-import Icon from 'react-native-vector-icons/Ionicons'
 import { useQuery } from '@tanstack/react-query';
 import { useDispatch } from 'react-redux';
+import Icon from 'react-native-vector-icons/Ionicons'
+
 import { HeritageDetails } from '../../types';
 import { setSelectedData } from '../../redux/slices/mapSlice';
 import Images from '../../components/details/Images';
+import Related from '../../components/details/Related';
 
 const index = () => {
   const [expanded, setExpanded] = useState(false);  // '더보기' 상태 관리
@@ -19,7 +21,7 @@ const index = () => {
     detailsContainer: {
       padding: 10,
       marginBottom: 10,
-      backgroundColor: theme.colors.grey5
+      backgroundColor: theme.colors.background
     },
     title: {
       fontWeight: 'bold',
@@ -116,12 +118,12 @@ const index = () => {
   return (
     <>
       {isSuccess && 
-        <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
+        <View style={[styles.container, {backgroundColor: theme.colors.grey5}]}>
           <ScrollView style={styles.scrollContainer}>
             {(data.images.length > 0) &&
               <Images imageArr={data?.images || []} videoUrl={data.videoUrl == "" ? null : data.videoUrl}/>
             }
-            <View style={[styles.innerContainer, { backgroundColor: theme.colors.background }]}>
+            <View style={[styles.innerContainer, { backgroundColor: theme.colors.grey5 }]}>
               <View style={localStyles.detailsContainer}>
                 <Text style={localStyles.title}>국가유산명</Text>
                 <Text style={localStyles.content}>
@@ -168,6 +170,7 @@ const index = () => {
                 )}
               </View>
             </View>
+            <Related longitude={data.longitude} latitude={data.latitude} />
           </ScrollView>
         </View>
       }

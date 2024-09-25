@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { HeritageDetails, MapState, Marker } from '../../types'
+import { HeritageDetails, MapState, RelatedItem } from '../../types'
 
 const initialState: MapState = {
   selectedData: null,
@@ -14,16 +14,13 @@ export const mapSlice = createSlice({
     setSelectedData : (state, action: PayloadAction<HeritageDetails>) => {
       state.selectedData = action.payload
     },
-    setRelatedMarkers: (state, action: PayloadAction<Marker[]>) => {
+    setRelatedMarkers: (state, action: PayloadAction<RelatedItem[]>) => {
       state.relatedMarkers = action.payload;
-    },
-    addRelatedMarkers: (state, action: PayloadAction<Marker[]>) => {
-      state.relatedMarkers.push(...action.payload); // 배열 전개 연산자를 사용하여 여러 마커를 추가
     },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setSelectedData, setRelatedMarkers, addRelatedMarkers } = mapSlice.actions
+export const { setSelectedData, setRelatedMarkers } = mapSlice.actions
 
 export default mapSlice.reducer
