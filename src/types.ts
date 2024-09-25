@@ -47,6 +47,10 @@ export interface HeritageDetails {
 export interface HeritageList {
   items: HeritageItem[];
 }
+export interface HeritageAll {
+  totalCnt: number,
+  heritageItems: HeritageItem[]
+}
 export interface Marker {
   latitude: string,
   longitude: string,
@@ -62,9 +66,7 @@ export interface HistoryItem {
   value: string;
 }
 export interface SearchState {
-  searchQuery: string; //검색어
   searchHistory: HistoryItem[]; //최근검색어
-  showResult: boolean; //검색결과 조회 여부
 }
 export interface BottomModalProps {
   title: string;
@@ -93,4 +95,13 @@ export interface SearchDetails {
   ccbaKdcd: string, 
   ccbaAsno: string, 
   ccbaCtcd: string
+}
+
+export interface ResultListProps { //검색결과 리스트
+  isLoading: boolean; 
+  isError: boolean;
+  isSuccess: boolean; 
+  data: HeritageItem[];
+  handleLoadMore: () => void;
+  isFetchingNextPage: boolean
 }

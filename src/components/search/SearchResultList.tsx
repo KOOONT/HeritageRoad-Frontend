@@ -2,17 +2,28 @@ import React from 'react'
 import { StyleSheet, View, Text } from 'react-native';
 import { useTheme } from '@rneui/themed';
 import { FlashList } from "@shopify/flash-list";
+
+import { ResultListProps } from '../../types';
 import ResultItem from './ResultItem';
 import Loading from '../common/Loading';
-import { HeritageItem } from '../../types';
 
-const SearchResultList = ({ isPending, isSuccess, data }: { isPending: boolean, isSuccess: boolean, data: HeritageItem[] }) => {
+const SearchResultList = ({ isLoading, isError, isSuccess, data, handleLoadMore, isFetchingNextPage }: ResultListProps) => {
   const { theme } = useTheme();
   
-  if(isPending) return (
+  const renderFooter = () => {
+    return isFetchingNextPage ? (
+      <Loading margin={0} />
+    ) : null;
+  };
+
+  if(isLoading) return (
     <Loading margin={30} />
   )
   
+  if(isError) return (
+    <Text style={{marginTop: 30}}>죄송합니다. 다시 검색해주세요.</Text>
+  )
+
   return (
     isSuccess && (
       <View style={styles.container}>
@@ -21,12 +32,16 @@ const SearchResultList = ({ isPending, isSuccess, data }: { isPending: boolean, 
             data={data}
             renderItem={({ item }) => (
               <ResultItem
-                key={item.ccbaAsno} // 키가 숫자일 경우 문자열로 변환
+                key={item.ccbaAsno}
                 item={item}
+                showCode={true}
               />
             )}
-            keyExtractor={(item) => item.ccbaAsno} // 키가 숫자일 경우 문자열로 변환
+            keyExtractor={(item) => item.ccbaAsno}
             estimatedItemSize={100}
+            onEndReached={handleLoadMore}
+            onEndReachedThreshold={0.5} // 리스트 끝에 50% 가까이 도달할 때 로드
+            ListFooterComponent={renderFooter} // 로딩 스피너 표시
           />
         ) : (
           <View style={styles.noitemContainer}>
@@ -48,7 +63,8 @@ const styles = StyleSheet.create({
   noitemContainer: {
     height: '100%',
     justifyContent: 'flex-start',
-    marginTop: 30
+    alignItems: 'center',
+    marginTop: 50
   }
 })
 export default SearchResultList

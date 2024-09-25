@@ -29,13 +29,28 @@ const Index = () => {
             </TouchableOpacity>
         </View>
         <TodayRoad />
-        <TitleContainer title='국보 여행 추천' titleSize={18} sideButton='전체보기' />
+        <TitleContainer 
+          title='국보 여행 추천' 
+          titleSize={18} 
+          sideButton='전체보기' 
+          buttonPress={() => router.push('/viewAll/11?title=국보 여행 전체보기')}
+        />
         <HeritageList queryKey='national' url='api/home-random-heritage-list' />
 
-        <TitleContainer title='보물 여행 추천' titleSize={18} sideButton='전체보기' />
+        <TitleContainer 
+          title='보물 여행 추천' 
+          titleSize={18} 
+          sideButton='전체보기' 
+          buttonPress={() => router.push('/viewAll/12?title=보물 여행 전체보기')}
+        />
         <HeritageList queryKey='treasure' url='api/home-random-treasure-list' />
 
-        <TitleContainer title='사적 여행 추천' titleSize={18} sideButton='전체보기' />
+        <TitleContainer 
+          title='사적 여행 추천' 
+          titleSize={18} 
+          sideButton='전체보기' 
+          buttonPress={() => router.push('/viewAll/13?title=사적 여행 전체보기')}
+        />
         <HeritageList queryKey='historic' url='api/home-random-historic-list' />
       </ScrollView>
     </View>

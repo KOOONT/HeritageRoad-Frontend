@@ -105,13 +105,13 @@ const styles = StyleSheet.create({
     height: 160
   },
   ccbaMnm1: {
-    fontSize: 12,
+    fontSize: 13,
     marginTop: 2,
     fontWeight: 'bold',
     flexWrap: 'wrap'
   },
   ccbaCtcdNm: {
-    fontSize: 10,
+    fontSize: 11,
     marginTop: 2
   },
 });

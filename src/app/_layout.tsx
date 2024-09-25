@@ -75,6 +75,13 @@ const Layout = () => {
                   title: '검색' 
                 }}
               />
+              <Stack.Screen
+                name="viewAll/[kdcd]"  
+                options={{ 
+                  title: '전체보기',
+                  headerShown: false,
+                }}
+              />
             </Stack> 
           </GestureHandlerRootView>
         </SafeAreaView>

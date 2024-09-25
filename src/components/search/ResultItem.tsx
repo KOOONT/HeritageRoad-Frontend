@@ -2,23 +2,36 @@ import React from 'react'
 import { View, Image, Text, StyleSheet } from 'react-native';
 import { HeritageItem } from '../../types';
 import { useTheme } from '@rneui/themed';
+import { useRouter } from 'expo-router';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const tempImg = "https://www.cha.go.kr/unisearch/images/national_treasure/2685609.jpg";
-
-const ResultItem = ({ item } : { item: HeritageItem }) => {
+const ResultItem = ({ item, showCode } : { item: HeritageItem, showCode: boolean }) => {
   const { theme } = useTheme();
+  const router = useRouter();
+
+  const getDetail = (id: string, name: string, kdcd: string, ctcd: string) => {
+    //push to detail page
+    router.push(`/details/${id}?name=${name}&kdcd=${kdcd}&ctcd=${ctcd}`);
+  }
 
   return (
-    <View style={styles.container}>
-      <Image
-        source={{ uri:  tempImg }} // 이미지 URL
-        style={styles.image}
-      />
-      <View style={styles.textContainer}>
-        <Text style={[styles.title, {color: theme.colors.black}]}>{item.ccbaMnm1}</Text>
-        <Text style={[styles.subtitle, {color: theme.colors.grey3}]}>{`${item.ccbaCtcdNm} ${item.ccsiName}, ${item.ccmaName}`}</Text>
+    <TouchableOpacity 
+      onPress={() => getDetail(item.ccbaAsno, item.ccbaMnm1, item.ccbaKdcd, item.ccbaCtcd)}
+      activeOpacity={0.7}
+    >
+      <View style={styles.container}>
+        <Image
+          source={{ uri:  item.imageUrl }} // 이미지 URL
+          style={styles.image}
+        />
+        <View style={styles.textContainer}>
+          <Text style={[styles.title, {color: theme.colors.black}]}>{item.ccbaMnm1}</Text>
+          <Text style={[styles.subtitle, { color: theme.colors.grey3 }]}>
+            {`${item.ccbaCtcdNm} ${item.ccsiName}${showCode ? `, ${item.ccmaName}` : ''}`}
+          </Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 

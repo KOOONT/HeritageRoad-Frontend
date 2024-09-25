@@ -14,7 +14,7 @@ const Recommend = ({requerySearch}: {requerySearch: (query: string) => void}) =>
       <TitleContainer title='추천검색어' titleSize={18} />
       <FlashList
         data={RECOMMEND}
-        style={styles.listContainer}
+        contentContainerStyle={styles.listContainer}
         horizontal
         keyExtractor={(item, index) => item + index}
         estimatedItemSize={50}
