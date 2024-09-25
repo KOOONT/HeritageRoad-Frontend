@@ -1,11 +1,11 @@
 import React from 'react';
-import { Modal, View, Text, Pressable, StyleSheet, TouchableWithoutFeedback, ActivityIndicator } from 'react-native';
+import { Modal, View, Text, Pressable, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useTheme } from '@rneui/themed';
 import { BottomModalProps } from '../../types';
 import Loading from './Loading';
 
-const BottomView = ({ title, subTitle, customHeight, isVisible, children, onClose, loading }: BottomModalProps) => {
+const BottomModal = ({ title, subTitle, isVisible, children, onClose, loading }: BottomModalProps) => {
   const { theme } = useTheme();
 
   return (
@@ -15,7 +15,7 @@ const BottomView = ({ title, subTitle, customHeight, isVisible, children, onClos
         <View style={styles.overlay}></View>
       </TouchableWithoutFeedback>
       {/* content */}
-      <View style={[styles.modalContent, {height: customHeight, backgroundColor: theme.colors.grey5}]}>
+      <View style={[styles.modalContent, {height: 'auto', backgroundColor: theme.colors.grey5}]}>
         { loading ? 
           <Loading margin={30}/>
         :
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 2
+    marginBottom: 5
   },
   title: {
     fontSize: 18,
@@ -72,4 +72,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BottomView
+export default BottomModal

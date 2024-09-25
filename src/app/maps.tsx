@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import MapView, { Callout, Marker } from 'react-native-maps';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Linking, Alert } from 'react-native';
 import { useSelector } from 'react-redux';
 import { router } from 'expo-router';
 import { Image } from 'expo-image';
+import { Button } from '@rneui/themed';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import { RootState } from '../redux/store';
 import { LATITUDE_DELTA, LONGITUDE_DELTA } from '../constants/options';
@@ -31,13 +33,14 @@ const Maps = () => {
   const handleHeritage = async(
     ccmaName: string, 
     ccbaMnm1: string, 
-    ccbaLcad: string, 
+    ccbaCtcdNm: string, 
+    ccsiName: string,
     images: HeritageImage[]
   ) => {
     try {
       setIsModalVisible(true);      
       setTitle(ccbaMnm1);
-      setSubTitle(`${ccmaName}`);
+      setSubTitle(`${ccbaCtcdNm} ${ccsiName}·${ccmaName}`);
       setImgList(images);
     } catch(error) {
       console.log('error', error);
@@ -45,6 +48,19 @@ const Maps = () => {
       setLoading(false);
     }
   }
+  const openKakaoMap = () => {
+    const url = `https://map.kakao.com/link/to/${selectedData?.ccbaMnm1},${selectedData?.latitude},${selectedData?.longitude}`;
+    
+    Linking.canOpenURL(url)
+      .then((supported) => {
+        if (supported) {
+          Linking.openURL(url);
+        } else {
+          Alert.alert('Error', '카카오맵을 열 수 없습니다.');
+        }
+      })
+      .catch((err) => Alert.alert('Error', 'Something went wrong: ' + err));
+  };
 
   return (
     <View style={styles.container}>
@@ -79,7 +95,8 @@ const Maps = () => {
               handleHeritage(
                 selectedData.ccmaName, 
                 selectedData.ccbaMnm1, 
-                selectedData.ccbaLcad,
+                selectedData.ccbaCtcdNm,
+                selectedData.ccsiName,
                 selectedData.images, 
               )
             }
@@ -116,7 +133,6 @@ const Maps = () => {
         title={title}
         subTitle ={subTitle}
         isVisible={isModalVisible} 
-        customHeight='50%'
         onClose={onModalClose}
         loading={loading}
       >
@@ -124,13 +140,26 @@ const Maps = () => {
           {imgList.slice(0, 3).map((item, index) => 
             <Image
               key={index}
-              style={[styles.image, {marginRight: index < imgList.length - 1 ? 12 : 0}]}
+              style={styles.image}
               source={item.imageUrl}
               placeholder={{ blurhash }}
               contentFit="cover"
               transition={1000}
             />
           )}
+        </View>
+        <View>
+          <Button
+            ViewComponent={LinearGradient}
+            linearGradientProps={{
+              colors: ["#0AAAB8", "#0B609D"],
+              start: { x: 0, y: 0.5 },
+              end: { x: 1, y: 0.5 },
+            }}
+            onPress={openKakaoMap}
+          >
+            길찾기
+          </Button>
         </View>
       </BottomModal>
     </View>
@@ -164,13 +193,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   imageContainer: {
-    flex: 1,
+    width: '100%',
+    height: 120,
+    marginTop: 10,
+    marginBottom: 15,
     flexDirection: 'row',
+    columnGap: 10,
   },
   image: {
     flex: 1,
-    width: '30%',
-    height: '40%',
+    width: 300,
+    height: 120,
     backgroundColor: '#0553',
   }
 });

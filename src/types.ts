@@ -72,7 +72,6 @@ export interface BottomModalProps {
   title: string;
   subTitle: string;
   isVisible: boolean;
-  customHeight: DimensionValue;
   children: ReactNode;
   onClose: () => void;
   loading: boolean;
