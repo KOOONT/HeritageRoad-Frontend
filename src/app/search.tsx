@@ -35,7 +35,7 @@ const Search = () => {
     queryFn: async ({ pageParam = 1 }): Promise<HeritageAll> => {
       if (!debouncedQuery) return { totalCnt: 0, heritageItems: [] }; // 검색어가 없으면 빈 결과를 반환
       
-      const response = await fetch(`${apiBaseUrl}/api/home-all-heritage-list/${pageParam}/${pageUnit}/11`);
+      const response = await fetch(`${apiBaseUrl}/api/heritage-search/${pageParam}/${pageUnit}/${debouncedQuery}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
