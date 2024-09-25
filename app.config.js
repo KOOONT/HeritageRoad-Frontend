@@ -1,10 +1,11 @@
 export default {
   "expo": {
-    "name": "heritage-road",
+    "name": "Heritage Road",
     "slug": "heritage-road",
+    "description": "국가유산과 주변 관광지 정보를 탐색할 수 있는 문화 여행 앱입니다.",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/AppIcon.png",
+    "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -28,10 +29,10 @@ export default {
       "usesCleartextTraffic": true,
       "userInterfaceStyle": "automatic",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/appIcon.png",
-        "backgroundColor": "#000"
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.heritageroad",
+      "package": "com.kooont.heritageroad",
       "config": {
         "googleMaps": {
           "apiKey": process.env.GOOGLE_MAPS_API_KEY
