@@ -26,7 +26,7 @@ const ResultItem = ({ item, showCode } : { item: HeritageItem, showCode: boolean
         />
         <View style={styles.textContainer}>
           <Text style={[styles.title, {color: theme.colors.black}]}>{item.ccbaMnm1}</Text>
-          <Text style={[styles.subtitle, { color: theme.colors.grey3 }]}>
+          <Text style={[styles.subtitle, { color: theme.colors.grey0 }]}>
             {`${item.ccbaCtcdNm} ${item.ccsiName}${showCode ? `, ${item.ccmaName}` : ''}`}
           </Text>
         </View>

@@ -8,7 +8,7 @@ export const customTheme = createTheme({
     black: '#242424',
     grey3: '#999999',
     grey4: '#F2F2F2',
-    grey5: '#FFFFFF', 
+    grey5: '#F5F5F5', 
     searchBg: '#F2F2F2'
   },
   darkColors: {

@@ -16,6 +16,7 @@ const Recommend = ({requerySearch}: {requerySearch: (query: string) => void}) =>
         data={RECOMMEND}
         contentContainerStyle={styles.listContainer}
         horizontal
+        showsHorizontalScrollIndicator={false} // 가로 스크롤바 숨김 
         keyExtractor={(item, index) => item + index}
         estimatedItemSize={50}
         renderItem={({ item }) => (

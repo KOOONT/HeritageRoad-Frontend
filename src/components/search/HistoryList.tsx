@@ -33,6 +33,7 @@ const HistoryList = ({requerySearch}: {requerySearch: (query: string) => void}) 
         data={searchHistory}
         contentContainerStyle={styles.listContainer}
         horizontal
+        showsHorizontalScrollIndicator={false} // 가로 스크롤바 숨김 
         keyExtractor={(item) => item.id}
         estimatedItemSize={50}
         renderItem={({ item }) => (
@@ -46,9 +47,10 @@ const HistoryList = ({requerySearch}: {requerySearch: (query: string) => void}) 
             </Text>
             <FontAwesome6 
               name="xmark" 
-              size={20} 
+              size={18} 
               color={theme.colors.black}
               onPress={(e: React.SyntheticEvent) => removeItem(e, item.id)}
+              style={styles.xIcon}
             ></FontAwesome6>
           </TouchableOpacity>
         )}
@@ -78,8 +80,12 @@ const styles = StyleSheet.create({
   searchItemText: {
     fontSize: 16,
     lineHeight: 20,
-    marginRight: 10,
+    marginRight: 15
   },
+  xIcon: {
+    position: 'absolute',
+    right: 12
+  }
 });
 
 export default HistoryList

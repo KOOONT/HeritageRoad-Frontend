@@ -20,7 +20,7 @@ const TitleContainer = ({title, titleSize, sideButton, buttonPress}: TitleContai
           onPress={buttonPress}
           activeOpacity={0.7}
         >
-          <Text style={[styles.clearText, { color: theme.colors.grey3 }]}>
+          <Text style={[styles.clearText, { color: theme.colors.grey0 }]}>
             {sideButton}
           </Text>
         </TouchableOpacity>

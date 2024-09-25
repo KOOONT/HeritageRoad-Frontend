@@ -55,7 +55,11 @@ const HeritageList = ({queryKey, url}: {queryKey: string, url: string}) => {
       activeOpacity={0.8}
       onPress={() => getDetail(item.ccbaAsno, item.ccbaMnm1, item.ccbaKdcd, item.ccbaCtcd)}
     >
-      <Image source={{ uri: item.imageUrl }} style={styles.image} resizeMode="cover" />
+      {item.imageUrl ? (
+        <Image source={{ uri: item.imageUrl }} style={styles.image} resizeMode="cover" />
+      ) : (
+        <View style={styles.placeholder} />
+      )}
       <Text 
         numberOfLines={1} ellipsizeMode="tail"
         style={[styles.ccbaMnm1, {color: theme.colors.black}]}
@@ -77,7 +81,7 @@ const HeritageList = ({queryKey, url}: {queryKey: string, url: string}) => {
         estimatedItemSize={200}
         renderItem={renderItem}
         pagingEnabled
-        snapToInterval={260}
+        snapToInterval={170}
         snapToAlignment='start' //스크롤뷰의 가운데 정렬
         decelerationRate="fast" // 빠른 스크롤 속도 설정
         showsHorizontalScrollIndicator={false} // 가로 스크롤바 숨김  
@@ -97,21 +101,26 @@ const styles = StyleSheet.create({
   },
   itemContainer: { 
     width: 160, 
-    height: 200,
+    height: 210,
     marginRight: 10,
   },
   image: {
     width: 160,
     height: 160
   },
+  placeholder: {
+    width: 160,
+    height: 160,
+    backgroundColor: '#d3d3d3', // 회색 배경색
+  },
   ccbaMnm1: {
-    fontSize: 13,
-    marginTop: 2,
+    fontSize: 14,
+    marginTop: 5,
     fontWeight: 'bold',
     flexWrap: 'wrap'
   },
   ccbaCtcdNm: {
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 2
   },
 });

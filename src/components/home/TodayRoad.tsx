@@ -75,7 +75,7 @@ const TodayRoad = () => {
         renderItem={renderItem}
         pagingEnabled
         snapToInterval={260}
-        snapToAlignment='start' //스크롤뷰의 가운데 정렬
+        snapToAlignment='start'
         decelerationRate="fast" // 빠른 스크롤 속도 설정
         showsHorizontalScrollIndicator={false} // 가로 스크롤바 숨김  
         contentContainerStyle={styles.listContainer} // 내부 컨테이너 스타일 설정

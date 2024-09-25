@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useTheme } from '@rneui/themed';
+import { Skeleton, useTheme } from '@rneui/themed';
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { useQuery } from '@tanstack/react-query';
@@ -34,6 +34,15 @@ const index = () => {
       marginTop: 10,
       color: theme.colors.black
     },
+    skeletonContainer: {
+      backgroundColor: theme.colors.background,
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    skeleton: {
+      width: '100%',
+      marginTop: 10
+    }
   })
 
   const router = useRouter();
@@ -81,19 +90,44 @@ const index = () => {
     }
   }, [isSuccess]);
 
-  if (isPending) {
-    return <Text>Loading...</Text>;
-  }
+  if (isPending) return (
+    <View style={localStyles.skeletonContainer}>
+      <Skeleton
+        animation="pulse"
+        height={300}
+        style={localStyles.skeleton}
+      />
+      {[...Array(5)].map((_, index) => (
+        <Skeleton
+          key={index}
+          animation="pulse"
+          height={60}
+          style={localStyles.skeleton}
+        />
+      ))}
+      <Skeleton
+        animation="pulse"
+        height={100}
+        style={localStyles.skeleton}
+      />
+    </View>
+  )
 
   return (
     <>
       {isSuccess && 
-        <View style={[styles.container]}>
+        <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
           <ScrollView style={styles.scrollContainer}>
             {(data.images.length > 0) &&
               <Images imageArr={data?.images || []} videoUrl={data.videoUrl == "" ? null : data.videoUrl}/>
             }
             <View style={[styles.innerContainer, { backgroundColor: theme.colors.background }]}>
+              <View style={localStyles.detailsContainer}>
+                <Text style={localStyles.title}>국가유산명</Text>
+                <Text style={localStyles.content}>
+                  {`${data.ccbaMnm1}`}
+                </Text>
+              </View>
               <View style={localStyles.detailsContainer}>
                 <Text style={localStyles.title}>분류</Text>
                 <Text style={localStyles.content}>
@@ -154,6 +188,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
   innerContainer:{
+    marginTop: 10
   },
 })
 export default index

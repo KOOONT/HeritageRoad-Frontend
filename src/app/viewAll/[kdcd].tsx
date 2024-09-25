@@ -52,15 +52,19 @@ const ViewAll = () => {
   
   return (
     <>
-    <View style={styles.textContainer}>
+    <View style={[styles.textContainer, {backgroundColor: theme.colors.background}]}>
       <Icon name="arrow-back" size={24} color={theme.colors.black} onPress={() => router.back()}/>
-      <Text style={styles.text}>{title}</Text>
+      <Text style={[styles.text, {color: theme.colors.black}]}>{title}</Text>
     </View>
   
-    {isLoading && <Loading margin={30} />}
+    {isLoading && (
+      <View style={{flex: 1, backgroundColor: theme.colors.background}}>
+        <Loading margin={30} />
+      </View>
+    )}
 
     {isSuccess && (
-      <View style={styles.container}>
+      <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
         {data?.pages.length > 0 && (
           <FlashList
             data={data.pages.flatMap(page => page.heritageItems)}
@@ -86,8 +90,8 @@ const ViewAll = () => {
 
 const styles = StyleSheet.create({
   textContainer: {
-    marginVertical: 20,
-    marginHorizontal: 10,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
     flexDirection: 'row', // 아이콘과 텍스트를 가로로 나열
   },
   text: {
@@ -99,7 +103,7 @@ const styles = StyleSheet.create({
     flex: 1, 
     width: '100%',
     paddingHorizontal: 10,
-    marginVertical: 10
+    paddingVertical: 10
   },
 })
 export default ViewAll
