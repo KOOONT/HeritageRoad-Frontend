@@ -69,7 +69,6 @@ const Search = () => {
   // debouncedQuery가 변경될 때마다 refetch 호출
   useEffect(() => {
     if (debouncedQuery) {
-      console.log('fetch debouncedQuery: ', debouncedQuery);
       addSearchTerm(debouncedQuery);
       refetch();
     }

@@ -20,10 +20,14 @@ const ResultItem = ({ item, showCode } : { item: HeritageItem, showCode: boolean
       activeOpacity={0.7}
     >
       <View style={styles.container}>
-        <Image
-          source={{ uri:  item.imageUrl }} // 이미지 URL
-          style={styles.image}
-        />
+        {item.imageUrl ? (
+          <Image
+            source={{ uri: item.imageUrl }}
+            style={styles.image}
+          />
+        ) : (
+          <View style={styles.image} />
+        )}
         <View style={styles.textContainer}>
           <Text style={[styles.title, {color: theme.colors.black}]}>{item.ccbaMnm1}</Text>
           <Text style={[styles.subtitle, { color: theme.colors.grey0 }]}>

@@ -67,24 +67,31 @@ const TodayRoad = () => {
   
   return (
     isSuccess && (
-      <FlashList
-        data={data}
-        horizontal
-        keyExtractor={(item) => item.ccbaAsno}
-        estimatedItemSize={200}
-        renderItem={renderItem}
-        pagingEnabled
-        snapToInterval={260}
-        snapToAlignment='start'
-        decelerationRate="fast" // 빠른 스크롤 속도 설정
-        showsHorizontalScrollIndicator={false} // 가로 스크롤바 숨김  
-        contentContainerStyle={styles.listContainer} // 내부 컨테이너 스타일 설정
-      /> 
+      <View style={styles.flashContainer}>
+        <FlashList
+          data={data}
+          horizontal
+          keyExtractor={(item) => item.ccbaAsno}
+          estimatedItemSize={200}
+          renderItem={renderItem}
+          pagingEnabled
+          snapToInterval={260}
+          snapToAlignment='start'
+          decelerationRate="fast" // 빠른 스크롤 속도 설정
+          showsHorizontalScrollIndicator={false} // 가로 스크롤바 숨김  
+          contentContainerStyle={styles.listContainer} // 내부 컨테이너 스타일 설정
+        /> 
+      </View>
     )
   )
 }
 
 const styles = StyleSheet.create({
+  flashContainer: {
+    flex: 1,
+    width: '100%',
+    height: 320
+  },
   listContainer: {
     paddingHorizontal: 20
   },

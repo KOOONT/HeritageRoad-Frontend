@@ -37,7 +37,7 @@ const SearchResultList = ({ isLoading, isError, isSuccess, data, handleLoadMore,
                 showCode={true}
               />
             )}
-            keyExtractor={(item) => item.ccbaAsno}
+            keyExtractor={(item) => `${item.ccbaAsno}${item.ccbaMnm1}`}
             estimatedItemSize={100}
             onEndReached={handleLoadMore}
             onEndReachedThreshold={0.5} // 리스트 끝에 50% 가까이 도달할 때 로드

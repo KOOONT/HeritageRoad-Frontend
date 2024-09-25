@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16
   },
   searchItemText: {
-    fontSize: 16,
+    fontSize: 15,
     lineHeight: 20,
   },
 });

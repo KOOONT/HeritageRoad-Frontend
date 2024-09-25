@@ -47,7 +47,7 @@ const HistoryList = ({requerySearch}: {requerySearch: (query: string) => void}) 
             </Text>
             <FontAwesome6 
               name="xmark" 
-              size={18} 
+              size={16} 
               color={theme.colors.black}
               onPress={(e: React.SyntheticEvent) => removeItem(e, item.id)}
               style={styles.xIcon}
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   searchItemText: {
-    fontSize: 16,
+    fontSize: 15,
     lineHeight: 20,
     marginRight: 15
   },
