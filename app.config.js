@@ -4,7 +4,7 @@ export default {
     "slug": "heritage-road",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/AppIcon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -28,8 +28,8 @@ export default {
       "usesCleartextTraffic": true,
       "userInterfaceStyle": "automatic",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/appIcon.png",
+        "backgroundColor": "#000"
       },
       "package": "com.anonymous.heritageroad",
       "config": {
