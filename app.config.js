@@ -11,6 +11,12 @@ export default {
       "resizeMode": "contain",
       "backgroundColor": "#03CBDD"
     },
+    "updates": {
+      "url": process.env.EXPO_UPDATES_URL
+    },
+    "runtimeVersion": {
+      "policy": "appVersion" // 런타임 버전 정책 설정
+    },
     "userInterfaceStyle": "automatic",
     "ios": {
       "infoPlist": {
@@ -45,7 +51,12 @@ export default {
     },
     "plugins": [
       "expo-router",
-      "expo-av"
+      "expo-av",
+      ["expo-build-properties", {
+        "android": {
+          "usesCleartextTraffic": true
+        }
+      }]
     ],
     "platforms": [
       "ios",
@@ -58,8 +69,10 @@ export default {
         "origin": false
       },
       "eas": {
-        "projectId": "39274d17-3163-486f-b2fd-036c76303eb0"
-      }
+        "projectId": "39274d17-3163-486f-b2fd-036c76303eb0",
+      },
+      "GOOGLE_MAPS_API_KEY": process.env.GOOGLE_MAPS_API_KEY,
+      "API_BASE_URL": process.env.API_BASE_URL
     }
   }
 }
