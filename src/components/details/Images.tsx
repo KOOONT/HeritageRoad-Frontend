@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Image } from 'expo-image';
 import { Audio, Video, ResizeMode, InterruptionModeAndroid, InterruptionModeIOS } from 'expo-av';
-import { View, Text, StyleSheet, NativeSyntheticEvent } from 'react-native';
+import { View, Text, StyleSheet, NativeSyntheticEvent, ImageBackground } from 'react-native';
 import { useTheme } from '@rneui/themed';
 import PagerView from 'react-native-pager-view';
 import { HeritageImage } from '../../types';
@@ -84,13 +84,15 @@ const Images = ({imageArr, videoUrl}: {imageArr: HeritageImage[], videoUrl: stri
             status={status}
           />
           {imageArr.length > 0 && imageArr.slice(0, 10).map((imageItem, index) => (
-            <Image
-              key={index}
-              source={imageItem.imageUrl}
-              placeholder={{ blurhash }}
-              contentFit="cover"
-              transition={1000}
-            />
+            <ImageBackground source={{ uri: imageItem.imageUrl }} key={index}>
+              {/* 이미지 위에 반투명 오버레이 추가 */}
+              <View style={styles.overlay} />
+              <View style={styles.textView}>
+                <Text style={styles.text} numberOfLines={2}>
+                  {imageItem.description}
+                </Text>
+              </View>
+            </ImageBackground>
             ))
           }
         </PagerView>
@@ -101,13 +103,15 @@ const Images = ({imageArr, videoUrl}: {imageArr: HeritageImage[], videoUrl: stri
           onPageSelected={(e) => pageSelected(e)}
         >
           {imageArr.length > 0 && imageArr.slice(0, 10).map((imageItem, index) => (
-            <Image
-              key={index}
-              source={imageItem.imageUrl}
-              placeholder={{ blurhash }}
-              contentFit="cover"
-              transition={1000}
-            />
+            <ImageBackground source={{ uri: imageItem.imageUrl }} key={index}>
+              {/* 이미지 위에 반투명 오버레이 추가 */}
+              <View style={styles.overlay} />
+              <View style={styles.textView}>
+                <Text style={styles.text} numberOfLines={2}>
+                  {imageItem.description}
+                </Text>
+              </View>
+            </ImageBackground>
             ))
           }
         </PagerView>
@@ -139,7 +143,25 @@ const styles = StyleSheet.create({
   pageText: {
     color: '#fff',
     fontSize: 16,
-  }
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject, // 이미지 전체를 덮는 오버레이
+    backgroundColor: 'rgba(0, 0, 0, 0.4)'
+  },
+  textView: {
+    width: '80%',
+    color: 'white',
+    position: 'absolute',
+    bottom: 15,
+    left: 10,
+  },
+  text: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginTop: 8,
+    flexWrap: 'nowrap'
+  },
 })
 
 export default Images;
