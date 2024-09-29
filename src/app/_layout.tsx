@@ -62,7 +62,7 @@ const Layout = () => {
                 }}
               />
               <Stack.Screen
-                name="maps"  
+                name="maps/[latP]"  
                 options={{ 
                   headerShown: false,
                   title: '맵' 

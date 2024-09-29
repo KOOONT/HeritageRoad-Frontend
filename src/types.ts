@@ -1,6 +1,3 @@
-import { ReactNode } from "react";
-import { DimensionValue } from "react-native";
-
 export interface HeritageItem {
   ccbaAsno: string;
   ccmaName: string;
@@ -61,6 +58,13 @@ export interface MapState {
   selectedData: HeritageDetails | null;
   relatedMarkers: RelatedItem[];
 }
+export interface MapProps {
+  lat: string;
+  lng: string;
+  title: string;
+  subTitle: string;
+  image: string;
+}
 export interface HistoryItem {
   id: string; //unique id(key)
   value: string;
@@ -69,26 +73,13 @@ export interface SearchState {
   searchHistory: HistoryItem[]; //최근검색어
 }
 export interface BottomModalProps {
+  lat: string;
+  lng: string;
   title: string;
   subTitle: string;
+  image: string;
   isVisible: boolean;
-  children: ReactNode;
   onClose: () => void;
-  loading: boolean;
-}
-export interface DistanceOption {
-  label: string;
-  value: number;
-}
-type IconType = "home" | "map" | "search";
-export interface Tab {
-  name: string;
-  title: string;
-  icon: IconType;
-  param? : {
-    data1: string,
-    data2: string,
-  }
 }
 export interface SearchDetails {
   ccbaKdcd: string, 

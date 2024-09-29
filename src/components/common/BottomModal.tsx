@@ -1,13 +1,34 @@
 import React from 'react';
-import { Modal, View, Text, Pressable, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { Modal, View, Text, Pressable, StyleSheet, TouchableWithoutFeedback, Linking, Alert } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { useTheme } from '@rneui/themed';
-import { BottomModalProps } from '../../types';
-import Loading from './Loading';
+import { Button, useTheme } from '@rneui/themed';
+import { Image } from 'expo-image';
 
-const BottomModal = ({ title, subTitle, isVisible, children, onClose, loading }: BottomModalProps) => {
+import { BottomModalProps } from '../../types';
+import { LinearGradient } from 'expo-linear-gradient';
+
+const blurhash =
+  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+
+const BottomModal = ({ lat, lng, title, subTitle, image, isVisible, onClose }: BottomModalProps) => {
   const { theme } = useTheme();
 
+  const openKakaoMap = (title: string | undefined, latitude: string, longitude: string) => {
+    const url = title 
+      ? `https://map.kakao.com/link/to/${title},${latitude},${longitude}` 
+      : `https://map.kakao.com/link/to/${latitude},${longitude}`;
+
+    Linking.canOpenURL(url)
+      .then((supported) => {
+        if (supported) {
+          Linking.openURL(url);
+        } else {
+          Alert.alert('Error', '카카오맵을 열 수 없습니다.');
+        }
+      })
+      .catch((err) => Alert.alert('Error', 'Something went wrong: ' + err));
+  };
+  
   return (
     <Modal animationType="fade" transparent={true} visible={isVisible}>
       {/* overlay */}
@@ -16,9 +37,6 @@ const BottomModal = ({ title, subTitle, isVisible, children, onClose, loading }:
       </TouchableWithoutFeedback>
       {/* content */}
       <View style={[styles.modalContent, {height: 'auto', backgroundColor: theme.colors.grey5}]}>
-        { loading ? 
-          <Loading margin={30}/>
-        :
         <>
           <View style={styles.titleContainer}>
             <Text style={[styles.title, { color: theme.colors.black }]}>
@@ -31,9 +49,34 @@ const BottomModal = ({ title, subTitle, isVisible, children, onClose, loading }:
           <Text style={[styles.subTitle, { color: theme.colors.black }]}>
             {subTitle}
           </Text>
-          {children}
+          {/* 이미지와 길찾기 버튼 */}
+          <View style={styles.imageContainer}>
+            {image && ( 
+              <Image
+                style={styles.image}
+                source={image}
+                placeholder={{ blurhash }}
+                contentFit="cover"
+                transition={1000}
+              />
+            )}
+          </View>
+          <View>
+            {lat && lng && (
+              <Button
+                ViewComponent={LinearGradient}
+                linearGradientProps={{
+                  colors: ["#0AAAB8", "#0B609D"],
+                  start: { x: 0, y: 0.5 },
+                  end: { x: 1, y: 0.5 },
+                }}
+                onPress={() => openKakaoMap(title, lat, lng)}
+              >
+                길찾기
+              </Button>
+            )}
+          </View>
         </>
-        } 
       </View>
     </Modal>
   );
@@ -70,6 +113,20 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: 12,
   },
+  imageContainer: {
+    width: '100%',
+    height: 120,
+    marginTop: 10,
+    marginBottom: 15,
+    flexDirection: 'row',
+    columnGap: 10,
+  },
+  image: {
+    flex: 1,
+    width: 300,
+    height: 120,
+    backgroundColor: '#0553',
+  }
 });
 
 export default BottomModal

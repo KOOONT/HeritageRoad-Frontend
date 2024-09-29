@@ -85,7 +85,7 @@ const index = () => {
             color={theme.colors.black}
             size={20} 
             onPress={() => {
-              router.push('/maps');
+              router.push(`/maps/${data.latitude}?lngP=${data.longitude}&idP=${data.ccbaAsno}&titleP=${data.ccbaMnm1}&subTitleP=${data.ccmaName}&imageP=${data.images[0].imageUrl}`);
             }} 
           />
       })

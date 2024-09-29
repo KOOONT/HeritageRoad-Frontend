@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { useQuery } from '@tanstack/react-query'
+import { useDispatch } from 'react-redux'
 import { FlashList } from '@shopify/flash-list'
 import { Skeleton, useTheme } from '@rneui/themed'
 import { useRouter } from 'expo-router'
+
 import { RelatedItem, RelatedList } from '../../types'
 import { setRelatedMarkers } from '../../redux/slices/mapSlice'
-import { useDispatch } from 'react-redux'
+import { TYPES_NAME } from '../../constants/options';
 
 const Related = ({longitude, latitude}: {longitude: string, latitude: string}) => {
   const { theme } = useTheme();
@@ -70,7 +72,7 @@ const Related = ({longitude, latitude}: {longitude: string, latitude: string}) =
   const renderItem = ({ item }: { item: RelatedItem }) => (
     <TouchableOpacity
       activeOpacity={0.7}
-      onPress={() => router.push('/maps')}
+      onPress={() => router.push(`/maps/${item.mapY}?lngP=${item.mapX}&idP=${item.contentId}&titleP=${item.title}&subTitleP=${TYPES_NAME[item.contentTypeId]}&imageP=${item.firstImage}`)}
     >
       <View 
         style={styles.itemContainer}
