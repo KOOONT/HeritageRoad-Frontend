@@ -180,7 +180,7 @@ const index = () => {
                   }
                 </Text>
 
-                {data1?.content && data1.content.length > 155 && (  // '더보기' 버튼은 내용이 길 때만 보여줌
+                {data1?.content && data1.content.length > limit && (  // '더보기' 버튼은 내용이 길 때만 보여줌
                   <TouchableOpacity onPress={toggleExpanded}>
                     <Text style={localStyles.moreText}>
                       {expanded ? '간략히' : '더보기'}  {/* 상태에 따라 버튼 텍스트 변경 */}
