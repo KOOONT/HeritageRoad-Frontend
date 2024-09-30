@@ -25,7 +25,7 @@ const RelatedMarker = ({ relatedMarkers, setModalData, markerRefs } : {
         ref={ref => { markerRefs.current[marker.contentId] = ref; }} // Store ref in markerRefs
         icon={images[marker.contentTypeId as keyof typeof images]}
         useLegacyPinView
-        opacity={0.9}
+        opacity={0.8}
         coordinate={{
           latitude: parseFloat(marker.mapY),
           longitude: parseFloat(marker.mapX)
@@ -60,12 +60,12 @@ const styles = StyleSheet.create({
     width: 'auto',
     fontWeight: 'bold',
     backgroundColor: '#191919',
-    fontSize: 13,
+    fontSize: 14,
     color: '#fff',
     textAlign: 'center',
-    borderRadius: 10,
-    paddingHorizontal: 8,
-    paddingVertical: 4
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 6
   },
 });
 

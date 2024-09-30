@@ -22,9 +22,9 @@ const HeritageList = ({queryKey, url}: {queryKey: string, url: string}) => {
     },
   })
 
-  const getDetail = (id: string, name: string, kdcd: string, ctcd: string) => {
+  const getDetail = (id: string, name: string, kdcd: string, ctcd: string, cityName: string, guName: string) => {
     //push to detail page
-    router.push(`/details/${id}?name=${name}&kdcd=${kdcd}&ctcd=${ctcd}`);
+    router.push(`/details/${id}?name=${name}&kdcd=${kdcd}&ctcd=${ctcd}&cityName=${cityName}&guName=${guName}`);
   }
 
   if(isPending) return (
@@ -53,7 +53,7 @@ const HeritageList = ({queryKey, url}: {queryKey: string, url: string}) => {
     <TouchableOpacity 
       style={styles.itemContainer}
       activeOpacity={0.8}
-      onPress={() => getDetail(item.ccbaAsno, item.ccbaMnm1, item.ccbaKdcd, item.ccbaCtcd)}
+      onPress={() => getDetail(item.ccbaAsno, item.ccbaMnm1, item.ccbaKdcd, item.ccbaCtcd, item.ccbaCtcdNm, item.ccsiName)}
     >
       {item.imageUrl ? (
         <Image source={{ uri: item.imageUrl }} style={styles.image} resizeMode="cover" />
@@ -76,6 +76,7 @@ const HeritageList = ({queryKey, url}: {queryKey: string, url: string}) => {
     isSuccess && (
       <FlashList
         data={data}
+        extraData={theme} // 테마를 의존성으로 전달
         horizontal
         keyExtractor={(item) => item.ccbaAsno}
         estimatedItemSize={200}

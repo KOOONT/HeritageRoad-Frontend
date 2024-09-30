@@ -9,14 +9,14 @@ const ResultItem = ({ item, showCode } : { item: HeritageItem, showCode: boolean
   const { theme } = useTheme();
   const router = useRouter();
 
-  const getDetail = (id: string, name: string, kdcd: string, ctcd: string) => {
+  const getDetail = (id: string, name: string, kdcd: string, ctcd: string, cityName: string, guName: string) => {
     //push to detail page
-    router.push(`/details/${id}?name=${name}&kdcd=${kdcd}&ctcd=${ctcd}`);
+    router.push(`/details/${id}?name=${name}&kdcd=${kdcd}&ctcd=${ctcd}&cityName=${cityName}&guName=${guName}`);
   }
 
   return (
     <TouchableOpacity 
-      onPress={() => getDetail(item.ccbaAsno, item.ccbaMnm1, item.ccbaKdcd, item.ccbaCtcd)}
+      onPress={() => getDetail(item.ccbaAsno, item.ccbaMnm1, item.ccbaKdcd, item.ccbaCtcd, item.ccbaCtcdNm, item.ccsiName)}
       activeOpacity={0.7}
     >
       <View style={styles.container}>
@@ -61,7 +61,6 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 14,
     marginTop: 5,
-    color: 'gray',
   },
 });
   

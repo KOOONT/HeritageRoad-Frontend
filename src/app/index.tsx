@@ -25,7 +25,7 @@ const Index = () => {
               onPress={openSearchPage}
               activeOpacity={0.7}
             >
-              <Icon name="search" size={22} color={theme.colors.black}/>
+              <Icon name="search" size={23} color={theme.colors.black}/>
             </TouchableOpacity>
         </View>
         <TodayRoad />
@@ -65,7 +65,9 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   scrollContainer: {
-    flex: 1
+    flex: 1,
+    minWidth: 160, 
+    minHeight: 210
   },
   titleContainer: {
     width: '100%',

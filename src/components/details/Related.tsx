@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import { useQuery } from '@tanstack/react-query'
 import { useDispatch } from 'react-redux'
 import { FlashList } from '@shopify/flash-list'
 import { Skeleton, useTheme } from '@rneui/themed'
@@ -10,26 +9,14 @@ import { RelatedItem, RelatedList } from '../../types'
 import { setRelatedMarkers } from '../../redux/slices/mapSlice'
 import { TYPES_NAME } from '../../constants/options';
 
-const Related = ({longitude, latitude}: {longitude: string, latitude: string}) => {
+const Related = ({isPending, isSuccess, data}: {isPending: boolean, isSuccess: boolean, data: RelatedList | undefined}) => {
   const { theme } = useTheme();
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const apiBaseUrl = process.env.API_BASE_URL;
-
-  const { isPending, isSuccess, data } = useQuery({
-    queryKey: [longitude, latitude],
-    queryFn: async (): Promise<RelatedList> => {
-      const response = await fetch(`${apiBaseUrl}/api/heritage-detail-related-attractions/${longitude}/${latitude}`);
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    },
-  })
   // isSuccess 시에 데이터 설정
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && data) {
       dispatch(setRelatedMarkers([...data.accommodations, ...data.relatedAttractions, ...data.restaurants]));
     }
   }, [isSuccess, data]); // isSuccess와 data가 변경될 때마다 실행
@@ -45,27 +32,33 @@ const Related = ({longitude, latitude}: {longitude: string, latitude: string}) =
       fontWeight: 'bold',
       marginBottom: 10,
       color: theme.colors.black
+    },
+    noItem: {
+      padding: 10
     }
   })
   if(isPending) return (
-    <View style={styles.skeleton}>
-      <Skeleton
-        animation="pulse"
-        width={160}
-        height={160}
-        style={{marginLeft: 20, marginRight: 10}}
-      />
-      <Skeleton
-        animation="pulse"
-        width={160}
-        height={160}
-        style={{marginRight: 10}}
-      />
-      <Skeleton
-        animation="pulse"
-        width={160}
-        height={160}
-      />
+    <View style={localStyles.container}>
+      <Text style={localStyles.text}>주변 관광지 추천</Text>
+      <View style={styles.skeleton}>
+        <Skeleton
+          animation="pulse"
+          width={160}
+          height={160}
+          style={{marginLeft: 10, marginRight: 10}}
+        />
+        <Skeleton
+          animation="pulse"
+          width={160}
+          height={160}
+          style={{marginRight: 10}}
+        />
+        <Skeleton
+          animation="pulse"
+          width={160}
+          height={160}
+        />
+      </View>
     </View>
   )
 
@@ -117,17 +110,29 @@ const Related = ({longitude, latitude}: {longitude: string, latitude: string}) =
   );
   
   return (
-    isSuccess && (
+    <>
+    {(isSuccess && data) && (
       <>
         {renderFlashList(data.relatedAttractions, '주변 관광지 추천')}
         {renderFlashList(data.restaurants, '주변 음식점 추천')}
         {renderFlashList(data.accommodations, '주변 숙박 추천')}
       </>
-    )
+    )}
+    {!data && (
+      <View style={localStyles.container}>
+        <Text style={[localStyles.noItem, {color: theme.colors.black}]}>조회된 주변 관광지가 없습니다.</Text>
+      </View>
+    )}
+    </>
   )
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    minWidth: 160,
+    minHeight: 210
+  },
   listContainer: {
     paddingHorizontal: 10
   },

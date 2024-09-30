@@ -14,6 +14,7 @@ const Recommend = ({requerySearch}: {requerySearch: (query: string) => void}) =>
       <TitleContainer title='추천검색어' titleSize={18} />
       <FlashList
         data={RECOMMEND}
+        extraData={theme} // 테마를 의존성으로 전달
         contentContainerStyle={styles.listContainer}
         horizontal
         showsHorizontalScrollIndicator={false} // 가로 스크롤바 숨김 
@@ -38,6 +39,7 @@ const Recommend = ({requerySearch}: {requerySearch: (query: string) => void}) =>
 const styles = StyleSheet.create({
   container: {
     width: '100%',
+    minWidth: 10,
     height: 100,
   },
   listContainer: {

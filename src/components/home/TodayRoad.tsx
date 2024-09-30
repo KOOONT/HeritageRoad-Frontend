@@ -2,11 +2,13 @@ import React from 'react'
 import { ImageBackground, TouchableOpacity, View, Text, StyleSheet } from 'react-native'
 import { useQuery } from '@tanstack/react-query'
 import { FlashList } from '@shopify/flash-list'
-import { Skeleton } from '@rneui/themed'
+import { Skeleton, useTheme } from '@rneui/themed'
 import { useRouter } from 'expo-router'
 import { HeritageItem } from '../../types'
 
 const TodayRoad = () => {
+  const { theme } = useTheme();
+
   const router = useRouter();
   const apiBaseUrl = process.env.API_BASE_URL;
 
@@ -21,9 +23,9 @@ const TodayRoad = () => {
     },
   })
 
-  const getDetail = (id: string, name: string, kdcd: string, ctcd: string) => {
+  const getDetail = (id: string, name: string, kdcd: string, ctcd: string, cityName: string, guName: string) => {
     //push to detail page
-    router.push(`/details/${id}?name=${name}&kdcd=${kdcd}&ctcd=${ctcd}`);
+    router.push(`/details/${id}?name=${name}&kdcd=${kdcd}&ctcd=${ctcd}&cityName=${cityName}&guName=${guName}`);
   }
 
   if(isPending) return (
@@ -52,7 +54,7 @@ const TodayRoad = () => {
     <TouchableOpacity 
       style={styles.itemContainer}
       activeOpacity={0.8}
-      onPress={() => getDetail(item.ccbaAsno, item.ccbaMnm1, item.ccbaKdcd, item.ccbaCtcd)}
+      onPress={() => getDetail(item.ccbaAsno, item.ccbaMnm1, item.ccbaKdcd, item.ccbaCtcd, item.ccbaCtcdNm, item.ccsiName)}
     >
       <ImageBackground source={{ uri: item.imageUrl }} style={styles.image}>
         {/* 이미지 위에 반투명 오버레이 추가 */}
@@ -70,6 +72,7 @@ const TodayRoad = () => {
       <View style={styles.flashContainer}>
         <FlashList
           data={data}
+          extraData={theme} // 테마를 의존성으로 전달
           horizontal
           keyExtractor={(item) => item.ccbaAsno}
           estimatedItemSize={200}
@@ -90,6 +93,7 @@ const styles = StyleSheet.create({
   flashContainer: {
     flex: 1,
     width: '100%',
+    minWidth: 250,
     height: 320
   },
   listContainer: {

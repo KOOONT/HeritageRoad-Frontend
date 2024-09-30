@@ -30,6 +30,7 @@ const SearchResultList = ({ isLoading, isError, isSuccess, data, handleLoadMore,
         {data.length > 0 ? (
           <FlashList
             data={data}
+            extraData={theme} // 테마를 의존성으로 전달
             renderItem={({ item }) => (
               <ResultItem
                 key={item.ccbaAsno}
@@ -57,6 +58,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1, 
     width: '100%',
+    minWidth: 80,
+    minHeight: 80,
     paddingHorizontal: 10,
     marginVertical: 10
   },

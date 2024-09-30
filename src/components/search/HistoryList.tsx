@@ -31,6 +31,7 @@ const HistoryList = ({requerySearch}: {requerySearch: (query: string) => void}) 
       {/* 최근 검색어 리스트 */}
       <FlashList
         data={searchHistory}
+        extraData={theme} // 테마를 의존성으로 전달
         contentContainerStyle={styles.listContainer}
         horizontal
         showsHorizontalScrollIndicator={false} // 가로 스크롤바 숨김 
@@ -84,7 +85,8 @@ const styles = StyleSheet.create({
   },
   xIcon: {
     position: 'absolute',
-    right: 12
+    right: 6,
+    padding: 4,
   }
 });
 

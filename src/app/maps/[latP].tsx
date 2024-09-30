@@ -100,7 +100,7 @@ const Maps = () => {
               longitude: parseFloat(selectedData.longitude)
             }}
             icon={require('../../../assets/Location.png')}
-            opacity={0.9}
+            opacity={0.8}
             calloutAnchor={{x: 0.5, y:-0.2}}
             onPress={() => 
               setModalData({
@@ -152,15 +152,14 @@ const styles = StyleSheet.create({
   },
   markerTitle: {
     width: 'auto',
+    fontWeight: 'bold',
     backgroundColor: '#191919',
-    paddingVertical: 2,
-    paddingHorizontal: 4,
-    fontSize: 12,
-    fontWeight: '600',
+    fontSize: 14,
     color: '#fff',
-    borderRadius: 20,
     textAlign: 'center',
-    marginBottom: 5,
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 6
   },
   detailTitle: {
     fontWeight: 'bold'

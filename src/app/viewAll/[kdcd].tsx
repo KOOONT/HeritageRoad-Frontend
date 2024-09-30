@@ -95,13 +95,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row', // 아이콘과 텍스트를 가로로 나열
   },
   text: {
-    marginLeft: 20, // 아이콘과 텍스트 사이의 여백
+    marginLeft: 24, // 아이콘과 텍스트 사이의 여백
     fontSize: 18,
     fontWeight: '600'
   },
   container: {
     flex: 1, 
     width: '100%',
+    minWidth: 80,
+    minHeight: 80,
     paddingHorizontal: 10,
     paddingVertical: 10
   },
