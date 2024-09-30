@@ -1,0 +1,12 @@
+{
+  "assets": [
+    { "filename": "adaptive-icon.png" },
+    { "filename": "Cutlery.png" },
+    { "filename": "favicon.png" },
+    { "filename": "Hotel.png" },
+    { "filename": "icon.png" },
+    { "filename": "Location.png" },
+    { "filename": "Placeholder.png" },
+    { "filename": "splash.png" }
+  ]
+}
