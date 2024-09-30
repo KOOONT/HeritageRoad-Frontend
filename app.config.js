@@ -3,7 +3,7 @@ export default {
     "name": "Heritage Road",
     "slug": "heritage-road",
     "description": "국가유산과 주변 관광지 정보를 탐색할 수 있는 문화 여행 앱입니다.",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {

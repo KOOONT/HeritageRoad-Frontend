@@ -4,10 +4,10 @@
     "module": "esnext",
     "target": "esnext",
     "strict": true,
-    "jsx": "react",
+    "jsx": "react-native",
     "moduleResolution": "node",
-    "esModuleInterop": true,
+    "esModuleInterop": true
   },
-  "include": ["src/**/*", "src/app/(tabs)/maps/.tsx"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }
