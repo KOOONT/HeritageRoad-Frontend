@@ -1,10 +1,11 @@
 import React from 'react'
-import { TouchableOpacity, View, Text, StyleSheet, Image } from 'react-native'
+import { TouchableOpacity, View, Text, StyleSheet } from 'react-native'
 import { useQuery } from '@tanstack/react-query'
 import { FlashList } from '@shopify/flash-list'
 import { Skeleton, useTheme } from '@rneui/themed'
 import { useRouter } from 'expo-router'
 import { HeritageItem } from '../../types'
+import FastImage from 'react-native-fast-image'
 
 const HeritageList = ({queryKey, url}: {queryKey: string, url: string}) => {
   const { theme } = useTheme();
@@ -56,7 +57,14 @@ const HeritageList = ({queryKey, url}: {queryKey: string, url: string}) => {
       onPress={() => getDetail(item.ccbaAsno, item.ccbaMnm1, item.ccbaKdcd, item.ccbaCtcd, item.ccbaCtcdNm, item.ccsiName)}
     >
       {item.imageUrl ? (
-        <Image source={{ uri: item.imageUrl }} style={styles.image} resizeMode="cover" />
+        <FastImage
+          style={styles.image}
+          source={{
+              uri: item.imageUrl,
+              priority: FastImage.priority.normal,
+          }}
+          resizeMode={FastImage.resizeMode.cover}
+        />
       ) : (
         <View style={styles.placeholder} />
       )}

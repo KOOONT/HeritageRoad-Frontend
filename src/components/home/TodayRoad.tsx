@@ -1,10 +1,11 @@
 import React from 'react'
-import { ImageBackground, TouchableOpacity, View, Text, StyleSheet } from 'react-native'
+import { TouchableOpacity, View, Text, StyleSheet } from 'react-native'
 import { useQuery } from '@tanstack/react-query'
 import { FlashList } from '@shopify/flash-list'
 import { Skeleton, useTheme } from '@rneui/themed'
 import { useRouter } from 'expo-router'
 import { HeritageItem } from '../../types'
+import FastImage from 'react-native-fast-image'
 
 const TodayRoad = () => {
   const { theme } = useTheme();
@@ -56,14 +57,20 @@ const TodayRoad = () => {
       activeOpacity={0.8}
       onPress={() => getDetail(item.ccbaAsno, item.ccbaMnm1, item.ccbaKdcd, item.ccbaCtcd, item.ccbaCtcdNm, item.ccsiName)}
     >
-      <ImageBackground source={{ uri: item.imageUrl }} style={styles.image}>
-        {/* 이미지 위에 반투명 오버레이 추가 */}
-        <View style={styles.overlay} />
-        <View style={styles.textView}>
+      <View style={styles.imageContainer}>
+        <FastImage
+          style={styles.image}
+          source={{
+            uri: item.imageUrl,
+            priority: FastImage.priority.high,
+          }}
+          resizeMode={FastImage.resizeMode.cover}
+        />
+        <View style={styles.overlay}>
           <Text style={styles.ccbaMnm1} numberOfLines={1} ellipsizeMode="tail">{item.ccbaMnm1}</Text>
           <Text style={styles.ccbaCtcdNm}>{`${item.ccbaCtcdNm} ${item.ccsiName}·${item.ccmaName}`}</Text>
         </View>
-      </ImageBackground>
+      </View>
     </TouchableOpacity>
   );
   
@@ -108,6 +115,11 @@ const styles = StyleSheet.create({
     height: 320,
     marginRight: 10,
   },
+  imageContainer: {
+    position: 'relative',
+    width: 250,
+    height: 320
+  },
   image: {
     width: 250,
     height: 320
@@ -116,23 +128,23 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject, // 이미지 전체를 덮는 오버레이
     backgroundColor: 'rgba(0, 0, 0, 0.4)'
   },
-  textView: {
-    color: 'white',
-    position: 'absolute',
-    bottom: 10, // 하단에서 10px 위로 배치
-    padding: 10,
-  },
-  ccbaCtcdNm: {
-    color: 'white',
-    fontSize: 14,
-    fontWeight: 'bold',
-    marginTop: 8
-  },
   ccbaMnm1: {
+    position: 'absolute',
+    bottom: 27,
+    padding: 10,
     color: 'white',
     fontSize: 20,
     fontWeight: 'bold',
     flexWrap: 'wrap'
+  },
+  ccbaCtcdNm: {
+    position: 'absolute',
+    bottom: 5,
+    padding: 10,
+    color: 'white',
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginTop: 8,
   },
 });
 

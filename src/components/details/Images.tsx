@@ -1,17 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Image } from 'expo-image';
 import { Audio, Video, ResizeMode, InterruptionModeAndroid, InterruptionModeIOS } from 'expo-av';
-import { View, Text, StyleSheet, NativeSyntheticEvent, ImageBackground } from 'react-native';
-import { useTheme } from '@rneui/themed';
+import { View, Text, StyleSheet, NativeSyntheticEvent } from 'react-native';
 import PagerView from 'react-native-pager-view';
+import FastImage from 'react-native-fast-image';
+
 import { HeritageImage } from '../../types';
 
-const blurhash =
-  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
-
 const Images = ({imageArr, videoUrl}: {imageArr: HeritageImage[], videoUrl: string | null}) => {
-  const { theme } = useTheme();
-
   const videoRef = useRef<Video | null>(null);
   const videoCount = videoUrl ? 1 : 0;
   const [status, setStatus] = useState({ //video status
@@ -84,15 +79,21 @@ const Images = ({imageArr, videoUrl}: {imageArr: HeritageImage[], videoUrl: stri
             status={status}
           />
           {imageArr.length > 0 && imageArr.slice(0, 10).map((imageItem, index) => (
-            <ImageBackground source={{ uri: imageItem.imageUrl }} key={index}>
-              {/* 이미지 위에 반투명 오버레이 추가 */}
-              <View style={styles.overlay} />
-              <View style={styles.textView}>
+            <View key={index}>
+              <FastImage
+                style={styles.image}
+                source={{
+                  uri: imageItem.imageUrl,
+                  priority: FastImage.priority.high,
+                }}
+                resizeMode={FastImage.resizeMode.cover}
+              />
+              <View style={styles.overlay}>
                 <Text style={styles.text} numberOfLines={2}>
                   {imageItem.description}
                 </Text>
               </View>
-            </ImageBackground>
+            </View>
             ))
           }
         </PagerView>
@@ -103,15 +104,21 @@ const Images = ({imageArr, videoUrl}: {imageArr: HeritageImage[], videoUrl: stri
           onPageSelected={(e) => pageSelected(e)}
         >
           {imageArr.length > 0 && imageArr.slice(0, 10).map((imageItem, index) => (
-            <ImageBackground source={{ uri: imageItem.imageUrl }} key={index}>
-              {/* 이미지 위에 반투명 오버레이 추가 */}
-              <View style={styles.overlay} />
-              <View style={styles.textView}>
+            <View key={index}>
+              <FastImage
+                style={styles.image}
+                source={{
+                  uri: imageItem.imageUrl,
+                  priority: FastImage.priority.high,
+                }}
+                resizeMode={FastImage.resizeMode.cover}
+              />
+              <View style={styles.overlay}>
                 <Text style={styles.text} numberOfLines={2}>
                   {imageItem.description}
                 </Text>
               </View>
-            </ImageBackground>
+            </View>
             ))
           }
         </PagerView>
@@ -143,6 +150,10 @@ const styles = StyleSheet.create({
   pageText: {
     color: '#fff',
     fontSize: 16,
+  },
+  image: {
+    width: '100%',
+    height: '100%'
   },
   overlay: {
     ...StyleSheet.absoluteFillObject, // 이미지 전체를 덮는 오버레이

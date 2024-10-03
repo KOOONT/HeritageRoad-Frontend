@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { FlashList } from '@shopify/flash-list'
 import { Skeleton, useTheme } from '@rneui/themed'
 import { useRouter } from 'expo-router'
+import FastImage from 'react-native-fast-image'
 
 import { RelatedItem, RelatedList } from '../../types'
 import { setRelatedMarkers } from '../../redux/slices/mapSlice'
@@ -71,7 +72,14 @@ const Related = ({isPending, isSuccess, data}: {isPending: boolean, isSuccess: b
         style={styles.itemContainer}
       >
         {item.firstImage ? (
-          <Image source={{ uri: item.firstImage }} style={styles.image} resizeMode="cover" />
+          <FastImage
+            style={styles.image}
+            source={{
+              uri: item.firstImage,
+              priority: FastImage.priority.normal,
+            }}
+            resizeMode={FastImage.resizeMode.cover}
+          />
         ) : (
           <View style={styles.placeholder} />
         )}

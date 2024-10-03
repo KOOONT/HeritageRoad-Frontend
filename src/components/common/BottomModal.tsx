@@ -2,13 +2,10 @@ import React from 'react';
 import { Modal, View, Text, Pressable, StyleSheet, TouchableWithoutFeedback, Linking, Alert } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Button, useTheme } from '@rneui/themed';
-import { Image } from 'expo-image';
+import FastImage from 'react-native-fast-image';
 
 import { BottomModalProps } from '../../types';
 import { LinearGradient } from 'expo-linear-gradient';
-
-const blurhash =
-  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
 const BottomModal = ({ lat, lng, title, subTitle, image, isVisible, onClose }: BottomModalProps) => {
   const { theme } = useTheme();
@@ -52,12 +49,13 @@ const BottomModal = ({ lat, lng, title, subTitle, image, isVisible, onClose }: B
           {/* 이미지와 길찾기 버튼 */}
           <View style={styles.imageContainer}>
             {image && ( 
-              <Image
+              <FastImage
                 style={styles.image}
-                source={image}
-                placeholder={{ blurhash }}
-                contentFit="cover"
-                transition={1000}
+                source={{
+                    uri: image,
+                    priority: FastImage.priority.normal,
+                }}
+                resizeMode={FastImage.resizeMode.cover}
               />
             )}
           </View>
