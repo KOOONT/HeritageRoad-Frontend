@@ -79,7 +79,7 @@ const index = () => {
   const { isPending: isPending2, isSuccess: isSuccess2, data: data2 } = useQuery({
     queryKey: ["related", cityName, guName],
     queryFn: async (): Promise<RelatedList> => {
-      const response = await fetch(`${apiBaseUrl}/api/heritage-detail-related-attractions-area/${limitRelated}/${cityName}/${guName}`);
+      const response = await fetch(`${apiBaseUrl}/api/heritage-detail-related-attractions-area/${limitRelated}/${cityName}/${guName == '' ? null : guName}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -152,13 +152,13 @@ const index = () => {
               <View style={localStyles.detailsContainer}>
                 <Text style={localStyles.title}>분류</Text>
                 <Text style={localStyles.content}>
-                  {`${data1.gcodeName}/${data1.bcodeName}/${data1.mcodeName}/${data1.scodeName}`}
+                  {`${data1.gcodeName}${data1.bcodeName ? `/${data1.bcodeName}`: ''}${data1.mcodeName ? `/${data1.mcodeName}` : ''}${data1.scodeName ? `/${data1.scodeName}` : ''}`}
                 </Text>
               </View>
               <View style={localStyles.detailsContainer}>
                 <Text style={localStyles.title}>종목/시대</Text>
                 <Text style={localStyles.content}>
-                  {`${data1?.ccmaName}/${data1?.ccceName}`}
+                  {`${data1?.ccmaName} ${data1.crltsnoNm}호/${data1?.ccceName ? data1.ccceName : '미상'}`}
                 </Text>
               </View>
               <View style={localStyles.detailsContainer}>

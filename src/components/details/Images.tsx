@@ -159,14 +159,10 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject, // 이미지 전체를 덮는 오버레이
     backgroundColor: 'rgba(0, 0, 0, 0.4)'
   },
-  textView: {
-    width: '80%',
-    color: 'white',
+  text: {
     position: 'absolute',
     bottom: 15,
     left: 10,
-  },
-  text: {
     color: 'white',
     fontSize: 14,
     fontWeight: 'bold',

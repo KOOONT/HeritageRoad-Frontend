@@ -47,6 +47,11 @@ const HeritageList = ({queryKey, url}: {queryKey: string, url: string}) => {
         width={160}
         height={160}
       />
+      <Skeleton
+        animation="pulse"
+        width={160}
+        height={160}
+      />
     </View>
   )
 
