@@ -1,6 +1,7 @@
 
 ## Heritage-Road
-Korean Heritage Guide App for Domestic and International Travelers
+국가유산과 주변 관광지 정보를 탐색할 수 있는 문화여행 앱입니다.
+
 
 ## System Requirements
 - Node.js >= 18
