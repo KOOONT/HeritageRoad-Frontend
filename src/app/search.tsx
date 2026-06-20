@@ -25,7 +25,7 @@ const Search = () => {
   const { searchHistory } = useSelector(selectSearchData);            
 
   const pageUnit = 10;
-  const apiBaseUrl = process.env.API_BASE_URL;
+  const apiBaseUrl = process.env.EXPO_PUBLIC_API_BASE_URL;
 
   const [searchQuery, setSearchQuery] = useState(''); // 검색어 상태
   const debouncedQuery = useDebounce(searchQuery, 500); // 디바운스 적용

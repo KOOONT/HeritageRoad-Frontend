@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Audio, Video, ResizeMode, InterruptionModeAndroid, InterruptionModeIOS } from 'expo-av';
-import { View, Text, StyleSheet, NativeSyntheticEvent } from 'react-native';
+import { Image, View, Text, StyleSheet, NativeSyntheticEvent } from 'react-native';
 import PagerView from 'react-native-pager-view';
-import FastImage from 'react-native-fast-image';
 
 import { HeritageImage } from '../../types';
 
 const Images = ({imageArr, videoUrl}: {imageArr: HeritageImage[], videoUrl: string | null}) => {
   const videoRef = useRef<Video | null>(null);
+  const visibleImages = imageArr.filter((image) => image.imageUrl).slice(0, 10);
   const videoCount = videoUrl ? 1 : 0;
+  const pageCount = visibleImages.length + videoCount;
   const [status, setStatus] = useState({ //video status
     progressUpdateIntervalMillis: 500,
     positionMillis: 0,
@@ -71,6 +72,7 @@ const Images = ({imageArr, videoUrl}: {imageArr: HeritageImage[], videoUrl: stri
         >
           <Video
             ref={videoRef}
+            style={styles.page}
             source={{
               uri: videoUrl,
             }}
@@ -78,15 +80,12 @@ const Images = ({imageArr, videoUrl}: {imageArr: HeritageImage[], videoUrl: stri
             resizeMode={ResizeMode.COVER}
             status={status}
           />
-          {imageArr.length > 0 && imageArr.slice(0, 10).map((imageItem, index) => (
-            <View key={index}>
-              <FastImage
+          {visibleImages.map((imageItem, index) => (
+            <View key={`${imageItem.imageUrl}-${index}`} style={styles.page} collapsable={false}>
+              <Image
                 style={styles.image}
-                source={{
-                  uri: imageItem.imageUrl,
-                  priority: FastImage.priority.high,
-                }}
-                resizeMode={FastImage.resizeMode.cover}
+                source={{ uri: imageItem.imageUrl }}
+                resizeMode="cover"
               />
               <View style={styles.overlay}>
                 <Text style={styles.text} numberOfLines={2}>
@@ -103,15 +102,12 @@ const Images = ({imageArr, videoUrl}: {imageArr: HeritageImage[], videoUrl: stri
           initialPage={0}
           onPageSelected={(e) => pageSelected(e)}
         >
-          {imageArr.length > 0 && imageArr.slice(0, 10).map((imageItem, index) => (
-            <View key={index}>
-              <FastImage
+          {visibleImages.map((imageItem, index) => (
+            <View key={`${imageItem.imageUrl}-${index}`} style={styles.page} collapsable={false}>
+              <Image
                 style={styles.image}
-                source={{
-                  uri: imageItem.imageUrl,
-                  priority: FastImage.priority.high,
-                }}
-                resizeMode={FastImage.resizeMode.cover}
+                source={{ uri: imageItem.imageUrl }}
+                resizeMode="cover"
               />
               <View style={styles.overlay}>
                 <Text style={styles.text} numberOfLines={2}>
@@ -125,7 +121,7 @@ const Images = ({imageArr, videoUrl}: {imageArr: HeritageImage[], videoUrl: stri
       )}
       <View style={styles.pageIndicator}>
         <Text style={styles.pageText}>
-          {currentPage + 1} / {Math.min(imageArr.length + videoCount, 10)}
+          {Math.min(currentPage + 1, pageCount)} / {pageCount}
         </Text>
       </View>
     </View>
@@ -137,6 +133,10 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 300,
     margin: 0,
+  },
+  page: {
+    width: '100%',
+    height: 300,
   },
   pageIndicator: {
     position: 'absolute',

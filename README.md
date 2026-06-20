@@ -22,6 +22,12 @@ npm install
     In the root directory of your project, create a .env file.
     Define the necessary environment variables in this file.
 
+````bash
+EXPO_PUBLIC_API_BASE_URL=https://api.heritageload.store
+GOOGLE_MAPS_API_KEY=your_google_maps_api_key
+EXPO_UPDATES_URL=https://u.expo.dev/39274d17-3163-486f-b2fd-036c76303eb0
+````
+
 4. Set Up Development Environment:
 
     Configure your development environment with Android and iOS devices. This includes setting up Android Emulators, iOS Simulators, and real devices.
@@ -35,6 +41,35 @@ npm install
 npx expo run:android
 # For iOS
 npx expo run:ios
+````
+
+## Deployment
+
+The production API is served through Nginx at:
+
+````bash
+https://api.heritageload.store
+````
+
+Create the production EAS environment variables before building:
+
+````bash
+npx eas-cli@latest env:create --name EXPO_PUBLIC_API_BASE_URL --value https://api.heritageload.store --environment production --visibility plaintext
+npx eas-cli@latest env:create --name GOOGLE_MAPS_API_KEY --value "your_google_maps_api_key" --environment production --visibility sensitive
+npx eas-cli@latest env:create --name EXPO_UPDATES_URL --value https://u.expo.dev/39274d17-3163-486f-b2fd-036c76303eb0 --environment production --visibility plaintext
+````
+
+Build a tester Android binary:
+
+````bash
+npx eas-cli@latest build --platform android --profile preview
+````
+
+Build and submit a store release:
+
+````bash
+npx eas-cli@latest build --platform android --profile production
+npx eas-cli@latest submit --platform android --profile production
 ````
 
 ## References

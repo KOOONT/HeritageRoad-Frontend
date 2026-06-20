@@ -1,17 +1,16 @@
 import React from 'react'
-import { TouchableOpacity, View, Text, StyleSheet } from 'react-native'
+import { Image, TouchableOpacity, View, Text, StyleSheet } from 'react-native'
 import { useQuery } from '@tanstack/react-query'
 import { FlashList } from '@shopify/flash-list'
 import { Skeleton, useTheme } from '@rneui/themed'
 import { useRouter } from 'expo-router'
 import { HeritageItem } from '../../types'
-import FastImage from 'react-native-fast-image'
 
 const TodayRoad = () => {
   const { theme } = useTheme();
 
   const router = useRouter();
-  const apiBaseUrl = process.env.API_BASE_URL;
+  const apiBaseUrl = process.env.EXPO_PUBLIC_API_BASE_URL;
 
   const { isPending, isSuccess, error, data } = useQuery({
     queryKey: ['todayRoad'],
@@ -28,6 +27,10 @@ const TodayRoad = () => {
     //push to detail page
     router.push(`/details/${id}?name=${name}&kdcd=${kdcd}&ctcd=${ctcd}&cityName=${cityName}&guName=${guName}`);
   }
+
+  const validData = data?.filter((item) => (
+    item.ccbaAsno && item.ccbaMnm1 && item.ccbaKdcd && item.ccbaCtcd
+  )) ?? [];
 
   if(isPending) return (
     <View style={styles.skeleton}>
@@ -58,27 +61,31 @@ const TodayRoad = () => {
       onPress={() => getDetail(item.ccbaAsno, item.ccbaMnm1, item.ccbaKdcd, item.ccbaCtcd, item.ccbaCtcdNm, item.ccsiName)}
     >
       <View style={styles.imageContainer}>
-        <FastImage
-          style={styles.image}
-          source={{
-            uri: item.imageUrl,
-            priority: FastImage.priority.high,
-          }}
-          resizeMode={FastImage.resizeMode.cover}
-        />
+        {item.imageUrl ? (
+          <Image
+            style={styles.image}
+            source={{ uri: item.imageUrl }}
+            resizeMode="cover"
+          />
+        ) : (
+          <View style={styles.placeholder} />
+        )}
         <View style={styles.overlay}>
           <Text style={styles.ccbaMnm1} numberOfLines={1} ellipsizeMode="tail">{item.ccbaMnm1}</Text>
-          <Text style={styles.ccbaCtcdNm}>{`${item.ccbaCtcdNm} ${item.ccsiName}·${item.ccmaName}`}</Text>
+          <Text style={styles.ccbaCtcdNm}>
+            {[item.ccbaCtcdNm, item.ccsiName].filter(Boolean).join(' ')}
+            {item.ccmaName ? `·${item.ccmaName}` : ''}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
   );
   
   return (
-    isSuccess && (
+    isSuccess && validData.length > 0 && (
       <View style={styles.flashContainer}>
         <FlashList
-          data={data}
+          data={validData}
           extraData={theme} // 테마를 의존성으로 전달
           horizontal
           keyExtractor={(item) => item.ccbaAsno}
@@ -123,6 +130,11 @@ const styles = StyleSheet.create({
   image: {
     width: 250,
     height: 320
+  },
+  placeholder: {
+    width: 250,
+    height: 320,
+    backgroundColor: '#d3d3d3',
   },
   overlay: {
     ...StyleSheet.absoluteFillObject, // 이미지 전체를 덮는 오버레이

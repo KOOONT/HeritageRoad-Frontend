@@ -9,8 +9,23 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { store } from '../redux/store';
 import { customTheme } from '../constants/ui';
 
+export const unstable_settings = {
+  initialRouteName: 'index',
+};
+
 // Create a client
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000,
+      gcTime: 30 * 60 * 1000,
+      retry: 1,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const Layout = () => {
   const colorScheme = useColorScheme(); // 시스템의 색상 모드 감지

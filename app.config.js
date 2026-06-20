@@ -73,7 +73,7 @@ export default {
         "projectId": "39274d17-3163-486f-b2fd-036c76303eb0",
       },
       "GOOGLE_MAPS_API_KEY": process.env.GOOGLE_MAPS_API_KEY,
-      "API_BASE_URL": process.env.API_BASE_URL
+      "API_BASE_URL": process.env.EXPO_PUBLIC_API_BASE_URL
     }
   }
 }

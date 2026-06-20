@@ -15,7 +15,7 @@ const ViewAll = () => {
   const { theme } = useTheme();
   
   const pageUnit = 10;
-  const apiBaseUrl = process.env.API_BASE_URL;
+  const apiBaseUrl = process.env.EXPO_PUBLIC_API_BASE_URL;
 
   const { isLoading, isSuccess, data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ['heritageAll', kdcd],

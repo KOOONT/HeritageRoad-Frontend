@@ -1,10 +1,9 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native';
+import { Image, View, Text, StyleSheet } from 'react-native';
 import { HeritageItem } from '../../types';
 import { useTheme } from '@rneui/themed';
 import { useRouter } from 'expo-router';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import FastImage from 'react-native-fast-image';
 
 const ResultItem = ({ item, showCode } : { item: HeritageItem, showCode: boolean }) => {
   const { theme } = useTheme();
@@ -22,13 +21,10 @@ const ResultItem = ({ item, showCode } : { item: HeritageItem, showCode: boolean
     >
       <View style={styles.container}>
         {item.imageUrl ? (
-          <FastImage
+          <Image
             style={styles.image}
-            source={{
-              uri: item.imageUrl,
-              priority: FastImage.priority.normal,
-            }}
-            resizeMode={FastImage.resizeMode.cover}
+            source={{ uri: item.imageUrl }}
+            resizeMode="cover"
           />
         ) : (
           <View style={styles.image} />

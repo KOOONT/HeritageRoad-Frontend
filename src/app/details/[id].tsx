@@ -64,9 +64,9 @@ const index = () => {
 
   const limit = 150;
   const limitRelated = 10;
-  const apiBaseUrl = process.env.API_BASE_URL;
+  const apiBaseUrl = process.env.EXPO_PUBLIC_API_BASE_URL;
 
-  const { isPending: isPending1, isSuccess: isSuccess1, data: data1 } = useQuery({
+  const { isPending: isPending1, isError: isError1, isSuccess: isSuccess1, data: data1 } = useQuery({
     queryKey: ['details', id],
     queryFn: async (): Promise<HeritageDetails> => {
       const response = await fetch(`${apiBaseUrl}/api/heritage-detail/${id}/${kdcd}/${ctcd}`);
@@ -131,6 +131,14 @@ const index = () => {
         height={100}
         style={localStyles.skeleton}
       />
+    </View>
+  )
+
+  if (isError1) return (
+    <View style={[styles.errorContainer, { backgroundColor: theme.colors.background }]}>
+      <Text style={[styles.errorText, { color: theme.colors.black }]}>
+        국가유산 상세 정보를 불러오지 못했습니다.
+      </Text>
     </View>
   )
 
@@ -211,6 +219,16 @@ const styles = StyleSheet.create({
   },
   innerContainer:{
     marginTop: 10
+  },
+  errorContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  errorText: {
+    fontSize: 15,
+    textAlign: 'center',
   },
 })
 export default index
