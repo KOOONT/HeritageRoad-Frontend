@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, View, Text } from 'react-native';
 import { useTheme } from '@rneui/themed';
 import { FlashList } from "@shopify/flash-list";
@@ -6,9 +6,16 @@ import { FlashList } from "@shopify/flash-list";
 import { ResultListProps } from '../../types';
 import ResultItem from './ResultItem';
 import Loading from '../common/Loading';
+import { prefetchImageUrls } from '../../utils/imagePrefetch';
 
 const SearchResultList = ({ isLoading, isError, isSuccess, data, handleLoadMore, isFetchingNextPage }: ResultListProps) => {
   const { theme } = useTheme();
+
+  useEffect(() => {
+    if (isSuccess) {
+      prefetchImageUrls(data.map((item) => item.imageUrl), 10);
+    }
+  }, [isSuccess, data]);
   
   const renderFooter = () => {
     return isFetchingNextPage ? (

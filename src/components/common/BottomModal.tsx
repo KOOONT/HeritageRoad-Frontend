@@ -2,10 +2,10 @@ import React from 'react';
 import { Modal, View, Text, Pressable, StyleSheet, TouchableWithoutFeedback, Linking, Alert } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Button, useTheme } from '@rneui/themed';
-import FastImage from 'react-native-fast-image';
 
 import { BottomModalProps } from '../../types';
 import { LinearGradient } from 'expo-linear-gradient';
+import NetworkImage from './NetworkImage';
 
 const BottomModal = ({ lat, lng, title, subTitle, image, isVisible, onClose }: BottomModalProps) => {
   const { theme } = useTheme();
@@ -48,16 +48,7 @@ const BottomModal = ({ lat, lng, title, subTitle, image, isVisible, onClose }: B
           </Text>
           {/* 이미지와 길찾기 버튼 */}
           <View style={styles.imageContainer}>
-            {image && ( 
-              <FastImage
-                style={styles.image}
-                source={{
-                    uri: image,
-                    priority: FastImage.priority.normal,
-                }}
-                resizeMode={FastImage.resizeMode.cover}
-              />
-            )}
+            <NetworkImage uri={image} style={styles.image} proxyWidth={720} />
           </View>
           <View>
             {lat && lng && (

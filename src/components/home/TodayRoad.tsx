@@ -1,10 +1,12 @@
-import React from 'react'
-import { Image, TouchableOpacity, View, Text, StyleSheet } from 'react-native'
+import React, { useEffect } from 'react'
+import { TouchableOpacity, View, Text, StyleSheet } from 'react-native'
 import { useQuery } from '@tanstack/react-query'
 import { FlashList } from '@shopify/flash-list'
 import { Skeleton, useTheme } from '@rneui/themed'
 import { useRouter } from 'expo-router'
 import { HeritageItem } from '../../types'
+import NetworkImage from '../common/NetworkImage'
+import { prefetchImageUrls } from '../../utils/imagePrefetch'
 
 const TodayRoad = () => {
   const { theme } = useTheme();
@@ -31,6 +33,12 @@ const TodayRoad = () => {
   const validData = data?.filter((item) => (
     item.ccbaAsno && item.ccbaMnm1 && item.ccbaKdcd && item.ccbaCtcd
   )) ?? [];
+
+  useEffect(() => {
+    if (isSuccess) {
+      prefetchImageUrls(validData.map((item) => item.imageUrl), 6);
+    }
+  }, [isSuccess, data]);
 
   if(isPending) return (
     <View style={styles.skeleton}>
@@ -61,22 +69,15 @@ const TodayRoad = () => {
       onPress={() => getDetail(item.ccbaAsno, item.ccbaMnm1, item.ccbaKdcd, item.ccbaCtcd, item.ccbaCtcdNm, item.ccsiName)}
     >
       <View style={styles.imageContainer}>
-        {item.imageUrl ? (
-          <Image
-            style={styles.image}
-            source={{ uri: item.imageUrl }}
-            resizeMode="cover"
-          />
-        ) : (
-          <View style={styles.placeholder} />
-        )}
-        <View style={styles.overlay}>
-          <Text style={styles.ccbaMnm1} numberOfLines={1} ellipsizeMode="tail">{item.ccbaMnm1}</Text>
-          <Text style={styles.ccbaCtcdNm}>
-            {[item.ccbaCtcdNm, item.ccsiName].filter(Boolean).join(' ')}
-            {item.ccmaName ? `·${item.ccmaName}` : ''}
-          </Text>
-        </View>
+        <NetworkImage uri={item.imageUrl} style={styles.image} proxyWidth={640}>
+          <View style={styles.overlay}>
+            <Text style={styles.ccbaMnm1} numberOfLines={1} ellipsizeMode="tail">{item.ccbaMnm1}</Text>
+            <Text style={styles.ccbaCtcdNm}>
+              {[item.ccbaCtcdNm, item.ccsiName].filter(Boolean).join(' ')}
+              {item.ccmaName ? `·${item.ccmaName}` : ''}
+            </Text>
+          </View>
+        </NetworkImage>
       </View>
     </TouchableOpacity>
   );
@@ -130,11 +131,6 @@ const styles = StyleSheet.create({
   image: {
     width: 250,
     height: 320
-  },
-  placeholder: {
-    width: 250,
-    height: 320,
-    backgroundColor: '#d3d3d3',
   },
   overlay: {
     ...StyleSheet.absoluteFillObject, // 이미지 전체를 덮는 오버레이

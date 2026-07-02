@@ -99,14 +99,38 @@ const index = () => {
       dispatch(setSelectedData(data1))
       navigation.setOptions({
         headerRight: () => 
-          <Icon 
-            name="map" 
-            color={theme.colors.black}
-            size={22} 
+          <TouchableOpacity
+            activeOpacity={0.75}
+            accessibilityRole="button"
+            accessibilityLabel="지도에서 보기"
+            style={[
+              styles.mapButton,
+              {
+                backgroundColor: theme.colors.grey5,
+                borderColor: theme.colors.grey4,
+              },
+            ]}
             onPress={() => {
-              router.push(`/maps/${data1.latitude}?lngP=${data1.longitude}&idP=${data1.ccbaAsno}&titleP=${data1.ccbaMnm1}&subTitleP=${data1.ccmaName}&imageP=${data1.images[0].imageUrl}`);
-            }} 
-          />
+              router.push({
+                pathname: '/maps/[latP]',
+                params: {
+                  latP: data1.latitude,
+                  lngP: data1.longitude,
+                  idP: data1.ccbaAsno,
+                  titleP: data1.ccbaMnm1,
+                  subTitleP: data1.ccmaName,
+                  imageP: data1.images?.[0]?.imageUrl ?? data1.imageUrl ?? '',
+                },
+              });
+            }}
+          >
+            <Icon
+              name="map"
+              color={theme.colors.black}
+              size={19}
+              style={styles.mapIcon}
+            />
+          </TouchableOpacity>
       })
     }
   }, [isSuccess1]);
@@ -142,13 +166,19 @@ const index = () => {
     </View>
   )
 
+  const detailImages = data1?.images?.length
+    ? data1.images
+    : data1?.imageUrl
+      ? [{ imageUrl: data1.imageUrl, description: data1.ccbaMnm1 }]
+      : [];
+
   return (
     <>
       {isSuccess1 && 
         <View style={[styles.container, {backgroundColor: theme.colors.grey5}]}>
           <ScrollView style={styles.scrollContainer}>
-            {(data1.images.length > 0) &&
-              <Images imageArr={data1?.images || []} videoUrl={data1.videoUrl == "" ? null : data1.videoUrl}/>
+            {(detailImages.length > 0) &&
+              <Images imageArr={detailImages} videoUrl={data1.videoUrl == "" ? null : data1.videoUrl}/>
             }
             <View style={[styles.innerContainer, { backgroundColor: theme.colors.grey5 }]}>
               <View style={localStyles.detailsContainer}>
@@ -228,6 +258,19 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontSize: 15,
+    textAlign: 'center',
+  },
+  mapButton: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    borderWidth: StyleSheet.hairlineWidth,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 2,
+  },
+  mapIcon: {
+    lineHeight: 19,
     textAlign: 'center',
   },
 })

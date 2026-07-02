@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Audio, Video, ResizeMode, InterruptionModeAndroid, InterruptionModeIOS } from 'expo-av';
-import { Image, View, Text, StyleSheet, NativeSyntheticEvent } from 'react-native';
+import { View, Text, StyleSheet, NativeSyntheticEvent } from 'react-native';
 import PagerView from 'react-native-pager-view';
 
 import { HeritageImage } from '../../types';
+import NetworkImage from '../common/NetworkImage';
+import { prefetchImageUrls } from '../../utils/imagePrefetch';
 
 const Images = ({imageArr, videoUrl}: {imageArr: HeritageImage[], videoUrl: string | null}) => {
   const videoRef = useRef<Video | null>(null);
@@ -35,6 +37,10 @@ const Images = ({imageArr, videoUrl}: {imageArr: HeritageImage[], videoUrl: stri
     }
     enableAudio();
   }, []);
+
+  useEffect(() => {
+    prefetchImageUrls(visibleImages.map((image) => image.imageUrl), 6);
+  }, [imageArr]);
   
   const checkVideoStatus = async () => { // 비디오 재생 상태 확인
     const status = await videoRef?.current?.getStatusAsync();
@@ -82,16 +88,13 @@ const Images = ({imageArr, videoUrl}: {imageArr: HeritageImage[], videoUrl: stri
           />
           {visibleImages.map((imageItem, index) => (
             <View key={`${imageItem.imageUrl}-${index}`} style={styles.page} collapsable={false}>
-              <Image
-                style={styles.image}
-                source={{ uri: imageItem.imageUrl }}
-                resizeMode="cover"
-              />
-              <View style={styles.overlay}>
-                <Text style={styles.text} numberOfLines={2}>
-                  {imageItem.description}
-                </Text>
-              </View>
+              <NetworkImage uri={imageItem.imageUrl} style={styles.page} proxyWidth={900}>
+                <View style={styles.overlay}>
+                  <Text style={styles.text} numberOfLines={2}>
+                    {imageItem.description}
+                  </Text>
+                </View>
+              </NetworkImage>
             </View>
             ))
           }
@@ -104,16 +107,13 @@ const Images = ({imageArr, videoUrl}: {imageArr: HeritageImage[], videoUrl: stri
         >
           {visibleImages.map((imageItem, index) => (
             <View key={`${imageItem.imageUrl}-${index}`} style={styles.page} collapsable={false}>
-              <Image
-                style={styles.image}
-                source={{ uri: imageItem.imageUrl }}
-                resizeMode="cover"
-              />
-              <View style={styles.overlay}>
-                <Text style={styles.text} numberOfLines={2}>
-                  {imageItem.description}
-                </Text>
-              </View>
+              <NetworkImage uri={imageItem.imageUrl} style={styles.page} proxyWidth={900}>
+                <View style={styles.overlay}>
+                  <Text style={styles.text} numberOfLines={2}>
+                    {imageItem.description}
+                  </Text>
+                </View>
+              </NetworkImage>
             </View>
             ))
           }
@@ -150,10 +150,6 @@ const styles = StyleSheet.create({
   pageText: {
     color: '#fff',
     fontSize: 16,
-  },
-  image: {
-    width: '100%',
-    height: '100%'
   },
   overlay: {
     ...StyleSheet.absoluteFillObject, // 이미지 전체를 덮는 오버레이

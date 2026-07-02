@@ -16,17 +16,35 @@ const Index = () => {
     router.push('/search');
   };
 
+  const openInfoPage = () => {
+    router.push('/info');
+  };
+
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.grey5 }]}>
       <ScrollView style={styles.scrollContainer}>
         <View style={styles.titleContainer}>
           <Text style={[styles.title, {color: theme.colors.black, fontSize: 20}]}>오늘의 로드</Text>
-          <TouchableOpacity 
+          <View style={styles.actionsContainer}>
+            <TouchableOpacity
+              accessibilityRole="button"
+              accessibilityLabel="앱 정보"
+              onPress={openInfoPage}
+              activeOpacity={0.7}
+              style={styles.iconButton}
+            >
+              <Icon name="information-circle-outline" size={24} color={theme.colors.black}/>
+            </TouchableOpacity>
+            <TouchableOpacity
+              accessibilityRole="button"
+              accessibilityLabel="검색"
               onPress={openSearchPage}
               activeOpacity={0.7}
+              style={styles.iconButton}
             >
               <Icon name="search" size={23} color={theme.colors.black}/>
             </TouchableOpacity>
+          </View>
         </View>
         <TodayRoad />
         <TitleContainer 
@@ -79,6 +97,17 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: 'bold',
+  },
+  actionsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  iconButton: {
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 2,
   },
 });
 

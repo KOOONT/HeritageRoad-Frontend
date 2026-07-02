@@ -17,8 +17,8 @@ export const unstable_settings = {
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 5 * 60 * 1000,
-      gcTime: 30 * 60 * 1000,
+      staleTime: 10 * 60 * 1000,
+      gcTime: 60 * 60 * 1000,
       retry: 1,
       refetchOnMount: false,
       refetchOnReconnect: false,
@@ -88,6 +88,13 @@ const Layout = () => {
                 options={{ 
                   headerShown: false,
                   title: '검색' 
+                }}
+              />
+              <Stack.Screen
+                name="info"
+                options={{
+                  headerShown: false,
+                  title: '앱 정보',
                 }}
               />
               <Stack.Screen

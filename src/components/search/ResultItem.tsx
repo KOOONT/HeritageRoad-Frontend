@@ -1,9 +1,10 @@
 import React from 'react'
-import { Image, View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { HeritageItem } from '../../types';
 import { useTheme } from '@rneui/themed';
 import { useRouter } from 'expo-router';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import NetworkImage from '../common/NetworkImage';
 
 const ResultItem = ({ item, showCode } : { item: HeritageItem, showCode: boolean }) => {
   const { theme } = useTheme();
@@ -20,15 +21,7 @@ const ResultItem = ({ item, showCode } : { item: HeritageItem, showCode: boolean
       activeOpacity={0.7}
     >
       <View style={styles.container}>
-        {item.imageUrl ? (
-          <Image
-            style={styles.image}
-            source={{ uri: item.imageUrl }}
-            resizeMode="cover"
-          />
-        ) : (
-          <View style={styles.image} />
-        )}
+        <NetworkImage uri={item.imageUrl} style={styles.image} proxyWidth={180} />
         <View style={styles.textContainer}>
           <Text style={[styles.title, {color: theme.colors.black}]}>{item.ccbaMnm1}</Text>
           <Text style={[styles.subtitle, { color: theme.colors.grey0 }]}>

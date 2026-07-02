@@ -24,9 +24,12 @@ npm install
 
 ````bash
 EXPO_PUBLIC_API_BASE_URL=https://api.heritageload.store
-GOOGLE_MAPS_API_KEY=your_google_maps_api_key
-EXPO_UPDATES_URL=https://u.expo.dev/39274d17-3163-486f-b2fd-036c76303eb0
+GOOGLE_MAPS_API_KEY=your_google_maps_api_key_for_android
+EXPO_PROJECT_ID=your_eas_project_id
+EXPO_UPDATES_URL=https://u.expo.dev/your_eas_project_id
 ````
+
+The iOS app uses Apple Maps through the default `react-native-maps` provider. `GOOGLE_MAPS_API_KEY` is only needed for Android builds.
 
 4. Set Up Development Environment:
 
@@ -55,8 +58,19 @@ Create the production EAS environment variables before building:
 
 ````bash
 npx eas-cli@latest env:create --name EXPO_PUBLIC_API_BASE_URL --value https://api.heritageload.store --environment production --visibility plaintext
+````
+
+When creating a new EAS project, run `npx eas-cli@latest init` first and then use the generated project ID:
+
+````bash
+npx eas-cli@latest env:create --name EXPO_PROJECT_ID --value "your_eas_project_id" --environment production --visibility plaintext
+npx eas-cli@latest env:create --name EXPO_UPDATES_URL --value "https://u.expo.dev/your_eas_project_id" --environment production --visibility plaintext
+````
+
+For Android production builds, also create:
+
+````bash
 npx eas-cli@latest env:create --name GOOGLE_MAPS_API_KEY --value "your_google_maps_api_key" --environment production --visibility sensitive
-npx eas-cli@latest env:create --name EXPO_UPDATES_URL --value https://u.expo.dev/39274d17-3163-486f-b2fd-036c76303eb0 --environment production --visibility plaintext
 ````
 
 Build a tester Android binary:
@@ -68,6 +82,9 @@ npx eas-cli@latest build --platform android --profile preview
 Build and submit a store release:
 
 ````bash
+npx eas-cli@latest build --platform ios --profile production
+npx eas-cli@latest submit --platform ios --profile production --latest
+
 npx eas-cli@latest build --platform android --profile production
 npx eas-cli@latest submit --platform android --profile production
 ````

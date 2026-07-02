@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Image, View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { FlashList } from '@shopify/flash-list'
 import { Skeleton, useTheme } from '@rneui/themed'
@@ -8,6 +8,8 @@ import { useRouter } from 'expo-router'
 import { RelatedItem, RelatedList } from '../../types'
 import { setRelatedMarkers } from '../../redux/slices/mapSlice'
 import { TYPES_NAME } from '../../constants/options';
+import NetworkImage from '../common/NetworkImage'
+import { prefetchImageUrls } from '../../utils/imagePrefetch'
 
 const Related = ({isPending, isSuccess, data}: {isPending: boolean, isSuccess: boolean, data: RelatedList | undefined}) => {
   const { theme } = useTheme();
@@ -18,6 +20,11 @@ const Related = ({isPending, isSuccess, data}: {isPending: boolean, isSuccess: b
   useEffect(() => {
     if (isSuccess && data) {
       dispatch(setRelatedMarkers([...data.accommodations, ...data.relatedAttractions, ...data.restaurants]));
+      prefetchImageUrls([
+        ...data.relatedAttractions,
+        ...data.restaurants,
+        ...data.accommodations,
+      ].map((item) => item.firstImage), 12);
     }
   }, [isSuccess, data]); // isSuccess와 data가 변경될 때마다 실행
 
@@ -65,20 +72,22 @@ const Related = ({isPending, isSuccess, data}: {isPending: boolean, isSuccess: b
   const renderItem = ({ item }: { item: RelatedItem }) => (
     <TouchableOpacity
       activeOpacity={0.7}
-      onPress={() => router.push(`/maps/${item.mapY}?lngP=${item.mapX}&idP=${item.contentId}&titleP=${item.title}&subTitleP=${TYPES_NAME[item.contentTypeId]}&imageP=${item.firstImage}`)}
+      onPress={() => router.push({
+        pathname: '/maps/[latP]',
+        params: {
+          latP: item.mapY,
+          lngP: item.mapX,
+          idP: item.contentId,
+          titleP: item.title,
+          subTitleP: TYPES_NAME[item.contentTypeId],
+          imageP: item.firstImage,
+        },
+      })}
     >
       <View 
         style={styles.itemContainer}
       >
-        {item.firstImage ? (
-          <Image
-            style={styles.image}
-            source={{ uri: item.firstImage }}
-            resizeMode="cover"
-          />
-        ) : (
-          <View style={styles.placeholder} />
-        )}
+        <NetworkImage uri={item.firstImage} style={styles.image} proxyWidth={360} />
         <Text 
           numberOfLines={1} ellipsizeMode="tail"
           style={[styles.ccbaMnm1, {color: theme.colors.black}]}
@@ -152,11 +161,6 @@ const styles = StyleSheet.create({
   image: {
     width: 160,
     height: 160
-  },
-  placeholder: {
-    width: 160,
-    height: 160,
-    backgroundColor: '#d3d3d3', // 회색 배경색
   },
   ccbaMnm1: {
     fontSize: 14,

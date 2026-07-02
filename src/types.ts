@@ -37,6 +37,7 @@ export interface HeritageDetails {
   ccbaAdmin: string;
   ccbaCncl: string;
   ccbaCndt: string;
+  imageUrl?: string;
   content: string;
   videoUrl: string;
   images: HeritageImage[]

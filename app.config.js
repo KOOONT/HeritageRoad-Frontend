@@ -1,79 +1,80 @@
+const easProjectId = process.env.EXPO_PROJECT_ID ?? "49fc3654-e353-4499-887a-244cb11e11ff";
+const updatesUrl = process.env.EXPO_UPDATES_URL ?? `https://u.expo.dev/${easProjectId}`;
+
 export default {
-  "expo": {
-    "name": "Heritage Road",
-    "slug": "heritage-road",
-    "description": "국가유산과 주변 관광지 정보를 탐색할 수 있는 문화 여행 앱입니다.",
-    "sdkVersion": "51.0.0",
-    "version": "1.0.2",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#03CBDD"
+  expo: {
+    name: "Heritage Road",
+    slug: "heritage-road",
+    description: "국가유산과 주변 관광지, 음식점, 숙박 정보를 함께 탐색할 수 있는 문화 여행 앱입니다.",
+    sdkVersion: "51.0.0",
+    version: "1.0.2",
+    orientation: "portrait",
+    icon: "./assets/icon.png",
+    splash: {
+      image: "./assets/splash.png",
+      resizeMode: "contain",
+      backgroundColor: "#03CBDD",
     },
-    "updates": {
-      "url": process.env.EXPO_UPDATES_URL
-    },
-    "runtimeVersion": {
-      "policy": "appVersion" // 런타임 버전 정책 설정
-    },
-    "userInterfaceStyle": "automatic",
-    "ios": {
-      "infoPlist": {
-        "NSAppTransportSecurity": { 
-          "NSAllowsArbitraryLoads": true 
+    ...(updatesUrl
+      ? {
+          updates: {
+            url: updatesUrl,
+          },
+          runtimeVersion: {
+            policy: "appVersion",
+          },
         }
+      : {}),
+    userInterfaceStyle: "automatic",
+    ios: {
+      userInterfaceStyle: "automatic",
+      supportsTablet: false,
+      bundleIdentifier: "com.kooont.heritageroad",
+      infoPlist: {
+        ITSAppUsesNonExemptEncryption: false,
       },
-      "userInterfaceStyle": "automatic",
-      "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.heritage-road",
-      "config": {
-        "googleMapsApiKey": process.env.GOOGLE_MAPS_API_KEY
-      }
     },
-    "android": {
-      "usesCleartextTraffic": true,
-      "userInterfaceStyle": "automatic",
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+    android: {
+      userInterfaceStyle: "automatic",
+      adaptiveIcon: {
+        foregroundImage: "./assets/adaptive-icon.png",
+        backgroundColor: "#ffffff",
       },
-      "package": "com.kooont.heritageroad",
-      "config": {
-        "googleMaps": {
-          "apiKey": process.env.GOOGLE_MAPS_API_KEY
-        }
-      }
+      package: "com.kooont.heritageroad",
+      config: {
+        googleMaps: {
+          apiKey: process.env.GOOGLE_MAPS_API_KEY,
+        },
+      },
     },
-    "web": {
-      "favicon": "./assets/favicon.png",
-      "bundler": "metro"
+    web: {
+      favicon: "./assets/favicon.png",
+      bundler: "metro",
     },
-    "plugins": [
+    plugins: [
       "expo-router",
-      "expo-av",
-      ["expo-build-properties", {
-        "android": {
-          "usesCleartextTraffic": true
-        }
-      }]
+      ["expo-av", {
+        microphonePermission: false,
+      }],
     ],
-    "platforms": [
+    platforms: [
       "ios",
       "android",
-      "web"
+      "web",
     ],
-    "scheme": "heritage-road",
-    "extra": {
-      "router": {
-        "origin": false
+    scheme: "heritage-road",
+    extra: {
+      router: {
+        origin: false,
       },
-      "eas": {
-        "projectId": "39274d17-3163-486f-b2fd-036c76303eb0",
-      },
-      "GOOGLE_MAPS_API_KEY": process.env.GOOGLE_MAPS_API_KEY,
-      "API_BASE_URL": process.env.EXPO_PUBLIC_API_BASE_URL
-    }
-  }
-}
+      ...(easProjectId
+        ? {
+            eas: {
+              projectId: easProjectId,
+            },
+          }
+        : {}),
+      API_BASE_URL: process.env.EXPO_PUBLIC_API_BASE_URL,
+    },
+  },
+};

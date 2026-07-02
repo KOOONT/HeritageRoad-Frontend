@@ -1,10 +1,12 @@
-import React from 'react'
-import { Image, TouchableOpacity, View, Text, StyleSheet } from 'react-native'
+import React, { useEffect } from 'react'
+import { TouchableOpacity, View, Text, StyleSheet } from 'react-native'
 import { useQuery } from '@tanstack/react-query'
 import { FlashList } from '@shopify/flash-list'
 import { Skeleton, useTheme } from '@rneui/themed'
 import { useRouter } from 'expo-router'
 import { HeritageItem } from '../../types'
+import NetworkImage from '../common/NetworkImage'
+import { prefetchImageUrls } from '../../utils/imagePrefetch'
 
 const HeritageList = ({queryKey, url}: {queryKey: string, url: string}) => {
   const { theme } = useTheme();
@@ -21,6 +23,12 @@ const HeritageList = ({queryKey, url}: {queryKey: string, url: string}) => {
       return response.json();
     },
   })
+
+  useEffect(() => {
+    if (isSuccess) {
+      prefetchImageUrls(data?.map((item) => item.imageUrl) ?? [], 8);
+    }
+  }, [isSuccess, data]);
 
   const getDetail = (id: string, name: string, kdcd: string, ctcd: string, cityName: string, guName: string) => {
     //push to detail page
@@ -60,15 +68,7 @@ const HeritageList = ({queryKey, url}: {queryKey: string, url: string}) => {
       activeOpacity={0.8}
       onPress={() => getDetail(item.ccbaAsno, item.ccbaMnm1, item.ccbaKdcd, item.ccbaCtcd, item.ccbaCtcdNm, item.ccsiName)}
     >
-      {item.imageUrl ? (
-        <Image
-          style={styles.image}
-          source={{ uri: item.imageUrl }}
-          resizeMode="cover"
-        />
-      ) : (
-        <View style={styles.placeholder} />
-      )}
+      <NetworkImage uri={item.imageUrl} style={styles.image} proxyWidth={360} />
       <Text 
         numberOfLines={1} ellipsizeMode="tail"
         style={[styles.ccbaMnm1, {color: theme.colors.black}]}
@@ -117,11 +117,6 @@ const styles = StyleSheet.create({
   image: {
     width: 160,
     height: 160
-  },
-  placeholder: {
-    width: 160,
-    height: 160,
-    backgroundColor: '#d3d3d3', // 회색 배경색
   },
   ccbaMnm1: {
     fontSize: 14,
