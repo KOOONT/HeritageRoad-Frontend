@@ -30,6 +30,8 @@ const HeritageList = ({queryKey, url}: {queryKey: string, url: string}) => {
     }
   }, [isSuccess, data]);
 
+  const visibleData = data?.filter((item) => item.imageUrl) ?? [];
+
   const getDetail = (id: string, name: string, kdcd: string, ctcd: string, cityName: string, guName: string) => {
     //push to detail page
     router.push(`/details/${id}?name=${name}&kdcd=${kdcd}&ctcd=${ctcd}&cityName=${cityName}&guName=${guName}`);
@@ -84,7 +86,7 @@ const HeritageList = ({queryKey, url}: {queryKey: string, url: string}) => {
   return (
     isSuccess && (
       <FlashList
-        data={data}
+        data={visibleData}
         extraData={theme} // 테마를 의존성으로 전달
         horizontal
         keyExtractor={(item) => item.ccbaAsno}
